@@ -15,8 +15,8 @@ public class GameState extends State {
 
     public GameState(Game game){
         super(game);
-        x = (Launcher.width/2 - Environment.roadWidth/2) + 105;
-        y = (Launcher.height - 50);
+        x = 15;
+        y = (Launcher.height/2 + 20);
         player = new Player(game, x, y);
     }
 
@@ -24,7 +24,6 @@ public class GameState extends State {
     public void tick() {
         x += 1;
         player.tick();
-
     }
 
     @Override

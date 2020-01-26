@@ -5,7 +5,7 @@ import java.awt.Color;
 public class Environment{
     private static int width;
     private static int height;
-    public static int roadWidth = 150;
+    public static int roadWidth = 120;
     
     public static void init(int width, int height){
         Environment.width = width;
@@ -17,6 +17,7 @@ public class Environment{
         g.fillRect(0, 0, width, height);
         g.setColor(new Color(166, 166, 166));
         g.fillRect(width/2 - roadWidth/2, 0, roadWidth, height);
+        g.fillRect(0,height/2 - roadWidth/2, width, roadWidth);
     }
 
     public static void test(){

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import driver.display.Display;
+import driver.game.drawings.Assets;
 import driver.game.drawings.Environment;
 import driver.input.KeyManager;
 import driver.states.GameState;
@@ -44,6 +45,7 @@ public class Game implements Runnable {
         gameController = new GameController();
         display.getCanvas();
         Environment.init(width, height);
+        Assets.init();
 
         gameState = new GameState(this);
         menuState = new MenuState(this);
