@@ -1,3 +1,4 @@
+package driver.game;
 public class GameController{
     int fps = 60;
     double timePerTick = 1000000000/fps;

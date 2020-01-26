@@ -1,6 +1,14 @@
-import java.awt.image.BufferStrategy;
+package driver.game;
+
 import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.image.BufferStrategy;
+
+import driver.display.Display;
+import driver.game.drawings.Environment;
+import driver.input.KeyManager;
+import driver.states.GameState;
+import driver.states.MenuState;
+import driver.states.State;
 
 public class Game implements Runnable {
     private Display display;
@@ -11,32 +19,45 @@ public class Game implements Runnable {
     private Thread thread;
 
     private BufferStrategy bs;
-    private Graphics g;
-    private Environment environment;
-    private GameController gameController;   
+    public Graphics g;
+    private GameController gameController;  
+    
+    
+    
+    //States
+    private State gameState;
+    private State menuState;
+    
+    // input
+    private KeyManager keyManager;
 
-    int x;
-    int y;
-    
-    
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
         this.title = title;
+        keyManager = new KeyManager();
     }
     
     private void init(){
         display = new Display(title, width, height);
-        environment = new Environment(width, height, g);
+        display.getFrame().addKeyListener(keyManager);
         gameController = new GameController();
         display.getCanvas();
-        
+        Environment.init(width, height);
+
+        gameState = new GameState(this);
+        menuState = new MenuState(this);
+        State.setState(gameState);
+
     }
 
     // for updating
     private void tick(){
-        x+=1;
-
+        keyManager.tick();
+        
+        if(State.getState() != null){
+            State.getState().tick();
+        }
     }
 
     private void render(){
@@ -49,22 +70,20 @@ public class Game implements Runnable {
         // clear the screen
         g.clearRect(0, 0, width, height);
 
-        // drawing starts here -------
-        environment.draw(g);
-        g.fillRect(x, y, 10, 10);
 
+        // rendering starts here ------
+        if(State.getState() != null){
+            State.getState().render(g);
+        }
+        // rendering ends here --------
 
-        // drawing ends here --------
         bs.show();
         g.dispose();
     }
 
     public void run() {
         init();
-
         gameController.init();
-
-
 
         while(running){
             if(gameController.running() >= 1){
@@ -75,6 +94,10 @@ public class Game implements Runnable {
 
         }
         stop();
+    }
+
+    public KeyManager getKeyManager(){
+        return keyManager;
     }
 
     public synchronized void start() {

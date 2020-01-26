@@ -1,3 +1,4 @@
+package driver.display;
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -28,6 +29,7 @@ public class Display{
         canvas.setPreferredSize(new Dimension(width, height));
         canvas.setMaximumSize(new Dimension(width, height));
         canvas.setMinimumSize(new Dimension(width, height));
+        canvas.setFocusable(false);
         
         frame.add(canvas);
         frame.pack(); // resize the window a bit to see window fully
@@ -37,4 +39,9 @@ public class Display{
     public Canvas getCanvas(){
         return canvas;
     }
+
+    public JFrame getFrame(){
+        return frame;
+    }
+
 }
