@@ -40,9 +40,9 @@ public class Player extends Cars {
         // physics -----------------------
         // if not turning==
         if(!game.getKeyManager().right && !game.getKeyManager().left){
-            yTemp = y;
-            xTemp = x;
-            movement.angle = 0;
+            // yTemp = y;
+            // xTemp = x;
+            // movement.angle = 0;
         }
 
         // if accelerating==
@@ -55,16 +55,20 @@ public class Player extends Cars {
             else if(game.getKeyManager().right || game.getKeyManager().left){
                 if(game.getKeyManager().left && !game.getKeyManager().right){
                     movement.accelerate();
-                    movement.calcTurn();
-                    y = (float) (yTemp - (movement.r - movement.riseY));
-                    x = (float) (xTemp + (movement.riseX));
+                    movement.calcTurnLeft();
+                    y = (float) (yTemp + movement.actualRiseY);
+                    x = (float) (xTemp + movement.actualRiseX);
+                    yTemp = y;
+                    xTemp = x;
 
                 }
                 if(!game.getKeyManager().left && game.getKeyManager().right){
                     movement.accelerate();
-                    movement.calcTurn();
-                    y = (float) (yTemp + (movement.r - movement.riseY));
-                    x = (float) (xTemp + (movement.riseX));
+                    movement.calcTurnRight();
+                    y = (float) (yTemp + movement.actualRiseY);
+                    x = (float) (xTemp + movement.actualRiseX);
+                    yTemp = y;
+                    xTemp = x;
 
                 }
             }
@@ -81,19 +85,23 @@ public class Player extends Cars {
                 if(game.getKeyManager().left && !game.getKeyManager().right){
                     movement.decelerate();
                     if(movement.velocity > 0){
-                        movement.calcTurn();
-                        y = (float) (yTemp - (movement.r - movement.riseY));
-                        x = (float) (xTemp + (movement.riseX));
+                        movement.calcTurnLeft();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
 
                     }
                 }
                 if(!game.getKeyManager().left && game.getKeyManager().right){
                     movement.decelerate();
                     if(movement.velocity > 0){
-                        movement.calcTurn();
-                        y = (float) (yTemp + (movement.r - movement.riseY));
-                        x = (float) (xTemp + (movement.riseX));
-
+                        movement.calcTurnRight();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
+    
                     }
                 }
             }
@@ -110,18 +118,23 @@ public class Player extends Cars {
                 if(game.getKeyManager().left && !game.getKeyManager().right){
                     movement.turnSlowDown();
                     if(movement.velocity > 0){
-                        movement.calcTurn();
-                        y = (float) (yTemp - (movement.r - movement.riseY));
-                        x = (float) (xTemp + (movement.riseX));
+                        movement.calcTurnLeft();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
 
                     }
                 }
                 if(!game.getKeyManager().left && game.getKeyManager().right){
                     movement.turnSlowDown();
                     if(movement.velocity > 0){
-                        movement.calcTurn();
-                        y = (float) (yTemp + (movement.r - movement.riseY));
-                        x = (float) (xTemp + (movement.riseX));
+                        movement.calcTurnRight();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
+    
 
                     }
                 }
@@ -152,8 +165,8 @@ public class Player extends Cars {
             car = Assets.carRightBrake;
         }
 
-        x += movement.tick(12); // this needs to get changed to not just be the x axis
-        System.out.println(movement.velocity + ":" + movement.angle);
+        // x += movement.tick(12); // this needs to get changed to not just be the x axis
+        System.out.println(movement.velocity + ":" + movement.angleLeft + "--" + movement.angleRight);
         
     }
 

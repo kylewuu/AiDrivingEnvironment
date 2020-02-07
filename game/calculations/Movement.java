@@ -6,10 +6,11 @@ public class Movement{
     public double deceleration;
 
     // testing
-    public double angle, angleR;
+    public double angleLeft, angleRight;
     public int r, rBase;
-    public double riseX;
-    public double riseY;
+    public double riseX, riseY;
+    public double riseYTemp, riseXTemp;
+    public double actualRiseX, actualRiseY;
     public double angleRate;
 
     public Movement(double velocity,double acceleration,double deceleration){
@@ -17,7 +18,8 @@ public class Movement{
         this.acceleration = acceleration;
         this.deceleration = deceleration;
 
-        angle = 0;
+        angleLeft = 0;
+        angleRight = 180;
         rBase = 50; // 50 is the base
         riseX = 0;
         riseY = 0;
@@ -63,18 +65,53 @@ public class Movement{
         return velocity / base;
     }
 
-    public void calcTurn(){
+    public void calcTurnLeft(){
         r = (int) (velocity + 50);
         if(velocity == 0){
             r = rBase;
         }
 
-        angleRate = velocity/10;
+        angleRate = velocity/20;
 
-        angle += angleRate;
+
         // the formulas for turning left and right!
-        riseX = r * Math.sin(Math.toRadians(angle));
-        riseY = r * Math.cos(Math.toRadians(angle));
+        riseXTemp = r * Math.sin(Math.toRadians(angleLeft));
+        riseYTemp = r * Math.cos(Math.toRadians(angleLeft));
+
+        riseX = r * Math.sin(Math.toRadians(angleLeft + angleRate));
+        riseY = r * Math.cos(Math.toRadians(angleLeft + angleRate));
+
+        actualRiseX = riseX - riseXTemp;
+        actualRiseY = riseY - riseYTemp;
+
+        angleLeft += angleRate;
+        angleRight = angleLeft - 180;
+
+        // System.out.println("angle: "+angle+" coordinates: "+riseX + " : "+riseY);
+
+    }
+    public void calcTurnRight(){
+        r = (int) (velocity + 50);
+        if(velocity == 0){
+            r = rBase;
+        }
+
+        angleRate = velocity/20;
+
+
+        // the formulas for turning left and right!
+        riseXTemp = r * Math.sin(Math.toRadians(angleRight));
+        riseYTemp = r * Math.cos(Math.toRadians(angleRight));
+
+        riseX = r * Math.sin(Math.toRadians(angleRight - angleRate));
+        riseY = r * Math.cos(Math.toRadians(angleRight - angleRate));
+
+        actualRiseX = riseX - riseXTemp;
+        actualRiseY = riseY - riseYTemp;
+
+        angleRight -= angleRate;
+        angleLeft = angleRight + 180;
+
         // System.out.println("angle: "+angle+" coordinates: "+riseX + " : "+riseY);
 
     }
