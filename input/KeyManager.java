@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
     private boolean[] keys;
-    public boolean accelerate, decelerate;
+    public boolean accelerate, decelerate, left, right;
 
     public KeyManager(){
         keys = new boolean[256];
@@ -15,6 +15,8 @@ public class KeyManager implements KeyListener {
     public void tick(){
         accelerate = keys[KeyEvent.VK_W];
         decelerate = keys[KeyEvent.VK_S];
+        left = keys[KeyEvent.VK_A];
+        right = keys[KeyEvent.VK_D];
 
     }
 
