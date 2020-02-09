@@ -16,6 +16,7 @@ public class Player extends Cars {
     private double velocity;
     private double acceleration;
     private double deceleration;
+    private double velocityLimit;
 
     private Movement movement;
 
@@ -28,8 +29,10 @@ public class Player extends Cars {
         this.game = game;
         velocity = 0;
         acceleration = 0.3;
-        deceleration = 0.7;
-        movement = new Movement(velocity, acceleration, deceleration);
+        deceleration = 0.4;
+        velocityLimit = 100;
+        
+        movement = new Movement(velocity, acceleration, deceleration, velocityLimit);
 
         yTemp = y;
         xTemp = x;
@@ -140,6 +143,23 @@ public class Player extends Cars {
                 }
             }
         }
+        // if not turning 
+        if(!game.getKeyManager().left && !game.getKeyManager().right){
+            movement.calcStraight();
+            y += movement.riseYLinear;
+            x += movement.riseXLinear;
+            yTemp = y;
+            xTemp = x;
+        }
+
+        // if trying to turn both ways just go straight
+        if(game.getKeyManager().left && game.getKeyManager().right){
+            movement.calcStraight();
+            y += movement.riseYLinear;
+            x += movement.riseXLinear;
+            yTemp = y;
+            xTemp = x;
+        }
 
         // drawings only --------
         // base figure, straight and no brake
@@ -164,10 +184,16 @@ public class Player extends Cars {
         if(game.getKeyManager().right && !game.getKeyManager().left && game.getKeyManager().decelerate){
             car = Assets.carRightBrake;
         }
+        if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().decelerate){
+            car = Assets.carStraightBrake;
+        }
+        if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().accelerate){
+            car = Assets.carStraightNo;
+        }
 
-        // x += movement.tick(12); // this needs to get changed to not just be the x axis
-        System.out.println(movement.velocity + ":" + movement.angleLeft + "--" + movement.angleRight);
-        
+        // rotates the image
+        car = Assets.rotate(car, -movement.angleLeft);
+
     }
 
     @Override

@@ -8,15 +8,19 @@ public class Movement{
     // testing
     public double angleLeft, angleRight;
     public int r, rBase;
-    public double riseX, riseY;
-    public double riseYTemp, riseXTemp;
+    private double riseX, riseY;
+    private double riseYTemp, riseXTemp;
     public double actualRiseX, actualRiseY;
-    public double angleRate;
+    private double angleRate;
+    public double riseXLinear, riseYLinear;
+    public double linearVelocity;
+    public double velocityLimit;
 
-    public Movement(double velocity,double acceleration,double deceleration){
+    public Movement(double velocity,double acceleration,double deceleration, double velocityLimit){
         this.velocity = velocity;
         this.acceleration = acceleration;
         this.deceleration = deceleration;
+        this.velocityLimit = velocityLimit;
 
         angleLeft = 0;
         angleRight = 180;
@@ -27,7 +31,9 @@ public class Movement{
     }
 
     public void accelerate(){
-        velocity += acceleration;
+        if(velocity <= velocityLimit){
+            velocity += acceleration;
+        }
     }
 
     public void decelerate(){
@@ -66,13 +72,12 @@ public class Movement{
     }
 
     public void calcTurnLeft(){
-        r = (int) (velocity + 50);
+        r = (int) (velocity*3 + 50);
         if(velocity == 0){
             r = rBase;
         }
 
-        angleRate = velocity/20;
-
+        if(velocity < 32) angleRate = velocity/22;
 
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleLeft));
@@ -91,13 +96,12 @@ public class Movement{
 
     }
     public void calcTurnRight(){
-        r = (int) (velocity + 50);
+        r = (int) (velocity*3 + 50);
         if(velocity == 0){
             r = rBase;
         }
 
-        angleRate = velocity/20;
-
+        if(velocity < 32) angleRate = velocity/22;
 
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleRight));
@@ -114,5 +118,12 @@ public class Movement{
 
         // System.out.println("angle: "+angle+" coordinates: "+riseX + " : "+riseY);
 
+    }
+
+    public void calcStraight(){
+        linearVelocity = tick(12);
+        // can use either left or right angle, they're all the same
+        riseXLinear = (linearVelocity * Math.cos(Math.toRadians(angleLeft)));
+        riseYLinear = - (linearVelocity * Math.sin(Math.toRadians(angleLeft)));
     }
 }
