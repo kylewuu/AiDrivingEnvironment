@@ -14,6 +14,7 @@ public class Assets{
     public static BufferedImage carLeftBrake;
     public static BufferedImage carRightNo;
     public static BufferedImage carRightBrake;
+    public static BufferedImage trafficLight;
 
     public static void init(){
         carStraightNo = ImageLoader.loadImage("/driver/res/textures/carStraightNoBrake.png");
@@ -24,6 +25,7 @@ public class Assets{
         carRightBrake = ImageLoader.loadImage("/driver/res/textures/carRightBrake.png");
 
         // rotating
+        trafficLight = ImageLoader.loadImage("/driver/res/textures/trafficLightAll.png");
 
     }
 
