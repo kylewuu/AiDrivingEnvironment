@@ -15,6 +15,10 @@ public class Assets{
     public static BufferedImage carRightNo;
     public static BufferedImage carRightBrake;
     public static BufferedImage trafficLight;
+    public static BufferedImage trafficLightRed;
+    public static BufferedImage trafficLightGreen;
+    public static BufferedImage trafficLightYellow;
+    public static int trafficLightWidth;
 
     public static void init(){
         carStraightNo = ImageLoader.loadImage("/driver/res/textures/carStraightNoBrake.png");
@@ -26,7 +30,11 @@ public class Assets{
 
         // rotating
         trafficLight = ImageLoader.loadImage("/driver/res/textures/trafficLightAll.png");
+        trafficLightRed = ImageLoader.loadImage("/driver/res/textures/trafficLightRed.png");
+        trafficLightGreen = ImageLoader.loadImage("/driver/res/textures/trafficLightGreen.png");
+        trafficLightYellow = ImageLoader.loadImage("/driver/res/textures/trafficLightYellow.png");
 
+        trafficLightWidth = trafficLightRed.getWidth(); // uselss??
     }
 
     public static BufferedImage rotate(BufferedImage image, double degrees) {
