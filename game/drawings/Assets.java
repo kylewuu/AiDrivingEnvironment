@@ -18,7 +18,7 @@ public class Assets{
     public static BufferedImage trafficLightRed;
     public static BufferedImage trafficLightGreen;
     public static BufferedImage trafficLightYellow;
-    public static int trafficLightWidth;
+    public static int trafficLightWidth,carLength, carWidth;
 
     public static void init(){
         carStraightNo = ImageLoader.loadImage("/driver/res/textures/carStraightNoBrake.png");
@@ -34,6 +34,8 @@ public class Assets{
         trafficLightGreen = ImageLoader.loadImage("/driver/res/textures/trafficLightGreen.png");
         trafficLightYellow = ImageLoader.loadImage("/driver/res/textures/trafficLightYellow.png");
 
+        carLength = carStraightNo.getWidth();
+        carWidth = carStraightNo.getHeight();
         trafficLightWidth = trafficLightRed.getWidth(); // uselss??
     }
 

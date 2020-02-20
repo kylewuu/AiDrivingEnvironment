@@ -17,7 +17,7 @@ public class CPU{
     public String road; // which road the car travels
     public BufferedImage brake, noBrake;
     private int topSpeed;
-    private int base;
+    public int base;
 
 
     public CPU(String road){
@@ -45,14 +45,14 @@ public class CPU{
                 brake = Assets.rotate(brake, 90);
                 noBrake = Assets.rotate(noBrake, 90);
                 x = Launcher.width/2 - 35;
-                y = -20;
+                y = -Launcher.width + 200;
 
                 break;
             case "topDown":
                 brake = Assets.rotate(brake, 270);
                 noBrake = Assets.rotate(noBrake, 270);
                 x = Launcher.width/2 + Environment.roadWidth/2 - 35;
-                y = Launcher.height + 20;
+                y = Launcher.width - 200;
 
                 break;
         }
@@ -61,13 +61,13 @@ public class CPU{
     }
 
     public void decelerate(){
-        if(velocity > 0){
+        if(velocity > deceleration){
             velocity -= deceleration;
         }
-        else velocity = 0;
+        else velocity = 0.00000;
     }
     public void accelerate(){
-        if(velocity <= topSpeed){
+        if(velocity < topSpeed){
             velocity += acceleration;
         }
 

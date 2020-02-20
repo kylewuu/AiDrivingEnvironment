@@ -23,6 +23,8 @@ public class TrafficLights extends Entity {
 
     private int lightSpacing;
 
+    private int[] stateArray;
+
     public TrafficLights(Game game, float x, float y) {
         super(x,y);
         this.game = game;
@@ -43,6 +45,8 @@ public class TrafficLights extends Entity {
         light21 = redLight;
         light22 = greenLight;
 
+        stateArray = new int[]{1, 0, 0 ,1};
+
         lightCount12 = redDelay;
         lightCount21 = redDelay;
 
@@ -50,12 +54,16 @@ public class TrafficLights extends Entity {
 
     }
 
+    public int[] stateGetter(){
+        return stateArray;
+    }
+
     @Override
     public void tick() {
         // make timer to change lights
         lightsChange();
-        
     }
+
     private void lightsChange(){
         // light11
         if(light11 == greenLight){
@@ -65,6 +73,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount11 = 0;
                 light11 = yellowLight;
+                stateArray[0] = 0;
             }
         }
 
@@ -75,6 +84,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount11 = 0;
                 light11 = redLight;
+                stateArray[0] = 0;
             }
         }
 
@@ -85,6 +95,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount11 = 0;
                 light11 = greenLight;
+                stateArray[0] = 1;
             }
         }
 
@@ -96,6 +107,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount12 = 0;
                 light12 = yellowLight;
+                stateArray[1] = 0;
             }
         }
 
@@ -106,6 +118,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount12 = 0;
                 light12 = redLight;
+                stateArray[1] = 0;
             }
         }
 
@@ -116,6 +129,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount12 = 0;
                 light12 = greenLight;
+                stateArray[1] = 1;
             }
         }
 
@@ -127,6 +141,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount21 = 0;
                 light21 = yellowLight;
+                stateArray[2] = 0;
             }
         }
 
@@ -137,6 +152,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount21 = 0;
                 light21 = redLight;
+                stateArray[2] = 0;
             }
         }
 
@@ -147,6 +163,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount21 = 0;
                 light21 = greenLight;
+                stateArray[2] = 1;
             }
         }
 
@@ -158,6 +175,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount22 = 0;
                 light22 = yellowLight;
+                stateArray[3] = 0;
             }
         }
 
@@ -168,6 +186,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount22 = 0;
                 light22 = redLight;
+                stateArray[3] = 0;
             }
         }
 
@@ -178,6 +197,7 @@ public class TrafficLights extends Entity {
             else{
                 lightCount22 = 0;
                 light22 = greenLight;
+                stateArray[3] = 1;
             }
         }
 
