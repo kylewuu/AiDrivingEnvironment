@@ -13,11 +13,13 @@ public class Environment{
     }
 
     public static void draw(Graphics g){
-        g.setColor(new Color(50, 168, 82));
-        g.fillRect(0, 0, width, height);
-        g.setColor(new Color(166, 166, 166));
-        g.fillRect(width/2 - roadWidth/2, 0, roadWidth, height);
-        g.fillRect(0,height/2 - roadWidth/2, width, roadWidth);
+        // g.setColor(new Color(50, 168, 82));
+        // g.fillRect(0, 0, width, height);
+        // g.setColor(new Color(166, 166, 166));
+        // g.fillRect(width/2 - roadWidth/2, 0, roadWidth, height);
+        // g.fillRect(0,height/2 - roadWidth/2, width, roadWidth);
+
+        g.drawImage(Assets.environment, 0, 0, null);
     }
 
     public static void test(){

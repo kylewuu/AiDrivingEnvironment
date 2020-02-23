@@ -10,7 +10,9 @@ work on cpu cars that just go straight ==
 
 destory method ==
 
-set up traffic light to work with cars
+set up traffic light to work with cars ==
+
+revamp the environment
 
 make white cars
 

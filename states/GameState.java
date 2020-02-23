@@ -21,7 +21,7 @@ public class GameState extends State {
     public GameState(Game game){
         super(game);
         carStartingX = 15;
-        carStartingY = (Launcher.height/2 + 20);
+        carStartingY = (Launcher.height/2 + 20) - 9;
         player = new Player(game, carStartingX, carStartingY);
 
         trafficLightStartingX = Launcher.width/2;

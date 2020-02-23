@@ -205,10 +205,10 @@ public class TrafficLights extends Entity {
     }
 
     public void render(Graphics g){
-        g.drawImage(Assets.rotate(light11, 180), (int) x - lightSpacing - 15, (int) y - lightSpacing, null);
-        g.drawImage(Assets.rotate(light12, 270), (int) x + lightSpacing - 50, (int) y - lightSpacing - 15, null);
-        g.drawImage(Assets.rotate(light21, 90), (int) x - lightSpacing, (int) y + lightSpacing, null);
-        g.drawImage(light22, (int) x + lightSpacing, (int) y + 5, null);
+        g.drawImage(Assets.rotate(light11, 180), (int) x - lightSpacing - 85, (int) y - lightSpacing + 180, null);
+        g.drawImage(Assets.rotate(light12, 270), (int) x + lightSpacing - 202, (int) y - lightSpacing - 80, null);
+        g.drawImage(Assets.rotate(light21, 90), (int) x - lightSpacing + 180, (int) y + lightSpacing - 40, null);
+        g.drawImage(light22, (int) x + lightSpacing - 40, (int) y - 140, null);
     }
 
 
