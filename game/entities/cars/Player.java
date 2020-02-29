@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import driver.game.Game;
 import driver.game.calculations.Movement;
+import driver.game.calculations.Points;
 import driver.game.drawings.Assets;
 
 
@@ -19,6 +20,7 @@ public class Player extends Cars {
     private double velocityLimit;
 
     private Movement movement;
+    private Points points;
 
     double yTemp;
     double xTemp;
@@ -33,7 +35,7 @@ public class Player extends Cars {
         velocityLimit = 100;
         
         movement = new Movement(velocity, acceleration, deceleration, velocityLimit);
-
+        points = new Points();
         yTemp = y;
         xTemp = x;
     }
@@ -193,13 +195,17 @@ public class Player extends Cars {
 
         // rotates the image
         car = Assets.rotate(car, -movement.angleLeft);
-
+        collision();
     }
 
     @Override
     public void render(Graphics g) {
 
         g.drawImage(car, (int) x, (int) y, null);
+    }
+
+    public void collision(){
+        if(points.sideCheck(y) == true) System.out.println("side");
     }
     
 }
