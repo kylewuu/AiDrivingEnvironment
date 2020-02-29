@@ -20,10 +20,12 @@ public class Player extends Cars {
     private double velocityLimit;
 
     private Movement movement;
-    private Points points;
+    private Points pointsClass;
 
     double yTemp;
     double xTemp;
+
+    private int points;
     
 
     public Player(Game game, float x, float y) {
@@ -35,9 +37,11 @@ public class Player extends Cars {
         velocityLimit = 100;
         
         movement = new Movement(velocity, acceleration, deceleration, velocityLimit);
-        points = new Points();
+        pointsClass = new Points();
         yTemp = y;
         xTemp = x;
+
+        points = 1000; // starting amount of points
     }
 
     @Override
@@ -205,7 +209,11 @@ public class Player extends Cars {
     }
 
     public void collision(){
-        if(points.sideCheck(y) == true) System.out.println("side");
+        int tempPoints = points;
+        points += pointsClass.sideCheck(y);
+
+
+        if(tempPoints != points) System.out.println(points);
     }
     
 }

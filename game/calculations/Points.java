@@ -25,8 +25,8 @@ public class Points {
     public Points(){
         // initiating the borders
 
-        sideBottom = Launcher.height/2 - Environment.roadWidth/2 - 10;
-        sideTop = Launcher.width/2 - Environment.roadWidth/2 - 60;
+        sideBottom = Launcher.height/2 - Environment.roadWidth/2 + 30;
+        sideTop = Launcher.height/2 - Environment.roadWidth/2 - 20;
         sideLeft = 0;
         sideRight = 0;
 
@@ -42,11 +42,14 @@ public class Points {
 
     }
 
-    public boolean sideCheck(double y){
-        if(y < sideBottom){
-            return true;
+    public double sideCheck(double y){
+        if(y < sideTop){
+            return -1;
         }
-        return false;
+        if(y > sideBottom){
+            return -2;
+        }
+        return 0;
     }
 
 }
