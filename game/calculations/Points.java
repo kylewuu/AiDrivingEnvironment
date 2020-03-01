@@ -2,6 +2,10 @@ package driver.game.calculations;
 
 import driver.game.Launcher;
 import driver.game.drawings.Environment;
+import java.awt.Graphics;
+import java.lang.reflect.Array;
+
+import driver.game.calculations.Movement;
 
 public class Points {
 
@@ -91,6 +95,42 @@ public class Points {
             }
         }
         return 0;
+    }
+
+    public double[][] renderHitbox(Movement movement, double x, double y){
+        // System.out.println( Math.abs(movement.angleRight - 90)%360);
+
+        // locations for each corner
+        double[] frontRight = new double[]{ x + 43, y + 5};
+        double[] frontLeft = new double[]{ x , y + 5};
+        double[] backLeft = new double[]{ x , y + 50};
+        double[] backRight = new double[]{ x + 41, y + 50};
+
+        double carAngle = Math.abs(movement.angleRight - 90)%360;
+        if((carAngle < 105 && carAngle > 75) || (carAngle < 295 && carAngle > 255)){
+            frontRight = new double[]{ x + 41, y};
+            frontLeft = new double[]{ x + 41, y + 26 + 5};
+            backLeft = new double[]{ x, y};
+            backRight = new double[]{ x, y + 26 + 5};
+            
+        }
+
+        if((carAngle < 195 && carAngle > 165) || (carAngle > 345 || carAngle < 15)){
+            frontRight = new double[]{ x + 33, y };
+            frontLeft = new double[]{ x, y};
+            backLeft = new double[]{ x, y + 26 + 15};
+            backRight = new double[]{ x + 33, y + 26 + 15};
+            
+        }
+
+
+        // g.drawRect((int) frontRight[0], (int) frontRight[1], 10, 10);
+        // g.drawRect((int) frontLeft[0], (int) frontLeft[1], 10, 10);
+        // g.drawRect((int) backLeft[0], (int) backLeft[1], 10, 10);
+        // g.drawRect((int) backRight[0], (int) backRight[1], 10, 10);
+        
+        return new double[][]{frontRight, frontLeft, backLeft, backRight};
+
     }
 
 }

@@ -39,6 +39,7 @@ public class Player extends Cars {
     private double pointsCounterMultiplier;
     private double pointsCounterMultiplierMultiplier;
     
+    private double[][] playerCorners;
 
     public Player(Game game, float x, float y) {
         super(x, y);
@@ -53,7 +54,7 @@ public class Player extends Cars {
         yTemp = y;
         xTemp = x;
 
-        points = 1000; // starting amount of points
+        points = 10000; // starting amount of points
 
         // for decreasing points if you dont move
         pointsCounter = 0;
@@ -217,14 +218,16 @@ public class Player extends Cars {
 
         // rotates the image
         car = Assets.rotate(car, -movement.angleLeft);
-        collisionEnvironment();
+        
+        collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
     }
 
     @Override
     public void render(Graphics g) {
 
         g.drawImage(car, (int) x, (int) y, null);
-        g.drawRect((int) x, (int) y, 10, 10); // for visualizing the hit box
+        
+        // pointsClass.renderHitbox(g, movement, x, y);
     }
 
     public void trafficLightGetter(int [] trafficLight){
@@ -232,29 +235,62 @@ public class Player extends Cars {
 
     }
 
-    public void collisionEnvironment(){
-        int tempPoints = points;
-        points += pointsClass.sideCheck(y, x);
-        points += pointsClass.intersectionCheck(y, x, trafficLights);
-        points += pointsClass.topCheck(y, x);
+    
 
+    public void collisionEnvironment( double[][] corners){
+
+        
+        this.playerCorners = corners;
+        // points loss for taking too long
         if(pointsCounter >= pointsCounterThreshold){
             points += -1;
             pointsCounter = 0;
             pointsCounterMultiplier += pointsCounterMultiplierMultiplier;
         }
         pointsCounter += 1 * pointsCounterMultiplier;
- 
-        // System.out.println("x: " + x + " y: " + y);
-        if(tempPoints != points) System.out.println(points);
+
+        // points handler for collision against environment
+        for( int i = 0; i< 4; i++){
+            int tempPoints = points;
+
+            points += pointsClass.sideCheck(corners[i][1], corners[i][0]);
+            points += pointsClass.intersectionCheck(y, x, trafficLights);
+            points += pointsClass.topCheck(corners[i][1], corners[i][0]);
+    
+            if(pointsCounter >= pointsCounterThreshold){
+                points += -1;
+                pointsCounter = 0;
+                pointsCounterMultiplier += pointsCounterMultiplierMultiplier;
+            }
+            pointsCounter += 1 * pointsCounterMultiplier;
+     
+            // System.out.println("x: " + x + " y: " + y);
+
+
+            if(tempPoints != points){
+                System.out.println(points);
+                break;
+            }
+        }
+
     }
 
     public void collisionCPU(List<CPU> carArray){
+        int tempPoints = points;
         for(int i = 0; i< carArray.size();i++){
             CPU temp = carArray.get(i);
-            if(temp.x == x || temp.y == y){
-                points += -10000;
+            for(int j=0;j<4;j++){
+                if((playerCorners[j][0] >= temp.x) && (playerCorners[j][0] <= temp.x1) && (playerCorners[j][1] >= temp.y) && (playerCorners[j][1] <= temp.y1)){
+                    points += -1000;
+                }
+                
             }
+
+            if(tempPoints != points){
+                System.out.println(points);
+                break;
+            }
+            
         }
     }
     
