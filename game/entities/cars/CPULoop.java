@@ -340,4 +340,8 @@ public class CPULoop{
         // System.out.println(carArray.size());
 
     }
+
+    public List<CPU> getter(){
+        return carArray;
+    }
 }

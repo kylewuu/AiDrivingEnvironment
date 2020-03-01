@@ -2,11 +2,16 @@ package driver.game.entities.cars;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import driver.game.Game;
 import driver.game.calculations.Movement;
 import driver.game.calculations.Points;
 import driver.game.drawings.Assets;
+import java.util.List;
+import driver.game.entities.cars.CPU;
 
 
 public class Player extends Cars {
@@ -26,6 +31,13 @@ public class Player extends Cars {
     double xTemp;
 
     private int points;
+
+    private int[] trafficLights;
+
+    private double pointsCounterThreshold;
+    private double pointsCounter;
+    private double pointsCounterMultiplier;
+    private double pointsCounterMultiplierMultiplier;
     
 
     public Player(Game game, float x, float y) {
@@ -42,6 +54,12 @@ public class Player extends Cars {
         xTemp = x;
 
         points = 1000; // starting amount of points
+
+        // for decreasing points if you dont move
+        pointsCounter = 0;
+        pointsCounterThreshold = 60;
+        pointsCounterMultiplier = 1;
+        pointsCounterMultiplierMultiplier = 0.1;
     }
 
     @Override
@@ -199,21 +217,45 @@ public class Player extends Cars {
 
         // rotates the image
         car = Assets.rotate(car, -movement.angleLeft);
-        collision();
+        collisionEnvironment();
     }
 
     @Override
     public void render(Graphics g) {
 
         g.drawImage(car, (int) x, (int) y, null);
+        g.drawRect((int) x, (int) y, 10, 10); // for visualizing the hit box
     }
 
-    public void collision(){
+    public void trafficLightGetter(int [] trafficLight){
+        this.trafficLights = trafficLight;
+
+    }
+
+    public void collisionEnvironment(){
         int tempPoints = points;
-        points += pointsClass.sideCheck(y);
+        points += pointsClass.sideCheck(y, x);
+        points += pointsClass.intersectionCheck(y, x, trafficLights);
+        points += pointsClass.topCheck(y, x);
 
-
+        if(pointsCounter >= pointsCounterThreshold){
+            points += -1;
+            pointsCounter = 0;
+            pointsCounterMultiplier += pointsCounterMultiplierMultiplier;
+        }
+        pointsCounter += 1 * pointsCounterMultiplier;
+ 
+        // System.out.println("x: " + x + " y: " + y);
         if(tempPoints != points) System.out.println(points);
+    }
+
+    public void collisionCPU(List<CPU> carArray){
+        for(int i = 0; i< carArray.size();i++){
+            CPU temp = carArray.get(i);
+            if(temp.x == x || temp.y == y){
+                points += -10000;
+            }
+        }
     }
     
 }

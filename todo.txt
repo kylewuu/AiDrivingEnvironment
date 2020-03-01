@@ -12,10 +12,20 @@ destory method ==
 
 set up traffic light to work with cars ==
 
-revamp the environment
+revamp the environment ==
 
-make white cars
+make white cars ==
 
-change cars to white color
+change cars to white color ==
 
-road detection for points
+road detection for points ==
+
+make proper hit boxes for player
+
+collision with cpu
+
+make proper hit boxes for cpu
+
+follow tutorial on youtube to make it better
+
+
