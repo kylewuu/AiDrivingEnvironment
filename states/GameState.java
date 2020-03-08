@@ -2,6 +2,7 @@ package driver.states;
 
 import java.awt.Graphics;
 
+import driver.ai.PlayerAi;
 import driver.game.Game;
 import driver.game.Launcher;
 import driver.game.drawings.Environment;
@@ -17,6 +18,7 @@ public class GameState extends State {
     private Player player;
     private TrafficLights trafficLight;
     private CPULoop cpuLoop;
+    private PlayerAi playerAi;
 
     public GameState(Game game){
         super(game);
@@ -29,17 +31,20 @@ public class GameState extends State {
 
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
         cpuLoop = new CPULoop();
+        playerAi = new PlayerAi();
+        playerAi.initEnvironment(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
+
     }
 
     @Override
     public void tick() {
-
         player.tick();
         trafficLight.tick();
         cpuLoop.speedControl(trafficLight.stateGetter());
         player.trafficLightGetter(trafficLight.stateGetter());
         cpuLoop.tick();
         player.collisionCPU(cpuLoop.getter());
+        playerAi.tick(player.xGetter(), player.yGetter());
 
     }
 

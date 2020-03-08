@@ -65,6 +65,7 @@ public class Player extends Cars {
 
     @Override
     public void tick() {
+        
         // physics -----------------------
         // if not turning==
         if(!game.getKeyManager().right && !game.getKeyManager().left){
@@ -267,8 +268,9 @@ public class Player extends Cars {
             // System.out.println("x: " + x + " y: " + y);
 
 
+            // for displaying the points
             if(tempPoints != points){
-                System.out.println(points);
+                // System.out.println(points);
                 break;
             }
         }
@@ -292,6 +294,16 @@ public class Player extends Cars {
             }
             
         }
+    }
+
+    public double xGetter(){
+        return (double) x;
+
+    }
+
+    public double yGetter(){
+        return (double) y;
+        
     }
     
 }
