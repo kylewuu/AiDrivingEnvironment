@@ -31,8 +31,8 @@ public class GameState extends State {
 
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
         cpuLoop = new CPULoop();
-        playerAi = new PlayerAi();
-        playerAi.initEnvironment(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
+        playerAi = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
+        
 
     }
 
