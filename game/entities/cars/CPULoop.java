@@ -52,7 +52,6 @@ public class CPULoop{
         double topDownLightLine = Launcher.height/2 + Environment.roadWidth/2 + 65;
         double sideLeftLightLine = Launcher.width/2 - Environment.roadWidth/2 - 100;
 
-
         double topUpStopLine = topUpLightLine;
         double sideStopLine = sideLightLine;
         double topDownStopLine = topDownLightLine;
@@ -144,8 +143,11 @@ public class CPULoop{
                         // System.out.println("stopping, tempx: " + temp.x+" side + room: " + ( sideStopLine + roomBetweenCars));
                         time = velocity/(deceleration);
                         distance = time + ((deceleration*temp.base)/2)*(time * time);
-                        
-                        // System.out.println("velocity: "+velocity+" distance: " + distance + " time: "+ " full: "+ (temp.x - (sideStopLine + roomBetweenCars)));
+
+                        // System.out.println(distance+" : "+temp.x +" : "+velocity);
+                        // System.out.println("CPU " +time+" : " + deceleration + " : "+ temp.base);
+                        // System.out.println("CPU " +velocity+" : " + deceleration);
+
                         if((distance >= Math.abs(temp.x - (sideLeftStopLine - roomBetweenCars))) && temp.velocity > 0) temp.decelerate();
                         else if(Math.abs(temp.x - (sideLeftStopLine - roomBetweenCars)) > roomBetweenCars) temp.accelerate();
 

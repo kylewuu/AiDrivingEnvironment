@@ -30,7 +30,7 @@ public class Train {
 			// 	}
 			// }
 		}
-		System.out.println("Done!!!");
+
 	}
 
 	public double[] run(double[] input){

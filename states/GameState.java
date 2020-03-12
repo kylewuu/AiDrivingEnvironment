@@ -44,7 +44,15 @@ public class GameState extends State {
         player.trafficLightGetter(trafficLight.stateGetter());
         cpuLoop.tick();
         player.collisionCPU(cpuLoop.getter());
-        playerAi.tick(player.xGetter(), player.yGetter());
+        // playerAi.tick(
+        //     player.xGetter(),
+        //     player.yGetter(),
+        //     trafficLight.stateGetter(),
+        //     player.velocityGetter(),
+        //     player.decelerationGetter(),
+        //     player.baseGetter()
+        //     );
+        playerAi.tick(player, trafficLight.stateGetter());
 
     }
 

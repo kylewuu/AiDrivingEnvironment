@@ -15,6 +15,7 @@ public class Movement{
     public double riseXLinear, riseYLinear;
     public double linearVelocity;
     public double velocityLimit;
+    public int base;
 
     public Movement(double velocity,double acceleration,double deceleration, double velocityLimit){
         this.velocity = velocity;
@@ -28,19 +29,22 @@ public class Movement{
         riseX = 0;
         riseY = 0;
         angleRate = 0.9; // probably don't need to adjust this?
+        base = 12;
     }
 
     public void accelerate(){
+        // System.out.println("asc");
         if(velocity <= velocityLimit){
             velocity += acceleration;
         }
     }
 
     public void decelerate(){
-        velocity -= deceleration;
-            if(velocity < deceleration){
-                velocity = 0;
-            }
+        // System.out.println("dec");
+        if(velocity > deceleration){
+            velocity -= deceleration;
+        }
+        else velocity = 0.000000000;
     }
 
     public void turnAccelerate(){
@@ -121,7 +125,7 @@ public class Movement{
     }
 
     public void calcStraight(){
-        linearVelocity = tick(12);
+        linearVelocity = tick(base);
         // can use either left or right angle, they're all the same
         riseXLinear = (linearVelocity * Math.cos(Math.toRadians(angleLeft)));
         riseYLinear = - (linearVelocity * Math.sin(Math.toRadians(angleLeft)));

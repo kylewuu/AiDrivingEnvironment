@@ -22,8 +22,5 @@ public class Environment{
         g.drawImage(Assets.environment, 0, 0, null);
     }
 
-    public static void test(){
-        System.out.println(width);
-    }
 
 }

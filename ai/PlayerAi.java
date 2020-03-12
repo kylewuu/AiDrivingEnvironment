@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Arrays;
 
 import driver.game.Launcher;
+import driver.game.entities.cars.Player;
 
 public class PlayerAi{
     // environment -----
@@ -108,15 +109,16 @@ public class PlayerAi{
         
     }
 
-    public void tick(double x, double y){
-        environmentTick(x, y);
-        sideStateTick();
+    // public void tick(double x, double y, int[] trafficLightStates, double velocity, double deceleration, int base){
+    public void tick(Player player, int[] trafficLightStates){
+        // environmentTick(player);
+        sideStateTick(player, trafficLightStates[1]);
     }
     
     // main tick for ai loop
-    private void environmentTick(double x, double y){
-        x = x/Launcher.width;
-        y = y/Launcher.height;
+    private void environmentTick(Player player){
+        double x = player.xGetter()/Launcher.width;
+        double y = player.yGetter()/Launcher.height;
         double[] stateArray = environmentAi.run(new double[]{x, y});
         
         // side state
@@ -133,34 +135,36 @@ public class PlayerAi{
         }
     }
 
-    private void sideStateTick(double x, double velocity, int lightStateHorizontal){
+    // private void sideStateTick(double x, double velocity, int lightStateHorizontal, double deceleration, int base){
+    private void sideStateTick(Player player, int trafficLightState){
+
         // acceleration
-        if(x <= sideRight){
-            // System.out.println("stopping, tempx: " + temp.x+" side + room: " + ( sideStopLine + roomBetweenCars));
-            double time = velocity/(deceleration);
-            distance = time + ((deceleration*temp.base)/2)*(time * time);
-            
-            // System.out.println("velocity: "+velocity+" distance: " + distance + " time: "+ " full: "+ (temp.x - (sideStopLine + roomBetweenCars)));
-            if((distance >= Math.abs(temp.x - (sideLeftStopLine - roomBetweenCars))) && temp.velocity > 0) temp.decelerate();
-            else if(Math.abs(temp.x - (sideLeftStopLine - roomBetweenCars)) > roomBetweenCars) temp.accelerate();
+        double trafficLine = sideRight*Launcher.width - 50;
+        int distanceFlag, trafficLightStateFlag;
+        double velocity = player.velocityGetter()/player.baseGetter();
+        distanceFlag = 0;
+        trafficLightStateFlag = trafficLightState;
+        // System.out.println(trafficLightStateFlag);
+        // System.out.println("stopping, tempx: " + temp.x+" side + room: " + ( sideStopLine + roomBetweenCars));
 
-            carArray.set(i, temp);
-            
+        double time = velocity/(player.decelerationGetter());
+        double distance = time + ((player.decelerationGetter()*player.baseGetter())/2)*(time * time);
+
+        if(distance >= Math.abs(player.xGetter() - trafficLine) && (player.velocityGetter() > 0)) distanceFlag = 1;
+        if(distanceFlag == 1 && Math.abs(player.xGetter() - trafficLine)<0.07){
+            player.xSetter(trafficLine);
         }
-        else{
-            temp.accelerate();
-            carArray.set(i, temp);
-        }
 
-        if(temp.x >= sideLeftLightLine ){
-            // System.out.println(sideStopLine + " : " + temp.velocity);
+        // else if(Math.abs(player.xGetter() - trafficLine ) > roomBetweenCars) distanceFlag = 0;
 
-            sideLeftStopLine = sideLeftLightLine;
-            if(lightStates[1] == 1) sideLeftStopLine = 10000;
-        }
-        else sideLeftStopLine = temp.x - roomBetweenCars;
-
-        System.out.println(Arrays.toString(stopLightAi.run(new double[]{0,1})));
+        // System.out.println("PLAYER " +trafficLightStateFlag+" : " + distanceFlag);
+        // System.out.println("PLAYER " +time+" : " + player.decelerationGetter() + " : "+ player.baseGetter());
+        // System.out.println(distance+" : "+(player.xGetter()-trafficLine)+ " : "+(player.velocityGetter()));
+        // System.out.println(((float)stopLightAi.run(new double[]{trafficLightStateFlag, distanceFlag})[0]) + "PLAYER " +trafficLightStateFlag+" : " + distanceFlag);
+        // System.out.println(distanceFlag);
+        // System.out.println(trafficLightStateFlag);
+        if(Math.round((float)stopLightAi.run(new double[]{trafficLightStateFlag, distanceFlag})[0]) == 0) player.accelerate();
+        else player.decelerate();
 
     }
 

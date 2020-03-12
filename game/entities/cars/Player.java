@@ -19,7 +19,7 @@ public class Player extends Cars {
     private BufferedImage car;
     private Game game;
 
-    private double velocity;
+    public double velocity;
     private double acceleration;
     private double deceleration;
     private double velocityLimit;
@@ -296,6 +296,7 @@ public class Player extends Cars {
         }
     }
 
+    // getters
     public double xGetter(){
         return (double) x;
 
@@ -305,5 +306,31 @@ public class Player extends Cars {
         return (double) y;
         
     }
+
+    public double velocityGetter(){
+        return movement.velocity;
+    }
+
+    public double decelerationGetter(){
+        return movement.deceleration;
+    }
+
+    public int baseGetter(){
+        return movement.base;
+    }
+
+    public void accelerate(){
+        movement.accelerate();
+    }
+
+    public void decelerate(){
+        movement.decelerate();
+    }
+
+    // setters
+    public void xSetter(double x){
+        this.x = (float) x;
+    }
+
     
 }
