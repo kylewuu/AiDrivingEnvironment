@@ -8,11 +8,11 @@ public class Train {
 	public double momentum;
 	public double iterationsMax;
 
-	public void train(double[][] trainData, double[][] trainResults, int inputSize, int hiddenSize, int outputSize){
+	public void train(double[][] trainData, double[][] trainResults, int inputSize, int hiddenSize, int outputSize, int iterationsMax){
 
 		learningRate = 0.3;
 		momentum = 0.6;
-		iterationsMax = 10000;
+		this.iterationsMax = iterationsMax;
 
 		backprop = new BackpropNeuralNetwork(inputSize, hiddenSize, outputSize);
 		

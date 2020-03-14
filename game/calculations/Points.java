@@ -4,6 +4,7 @@ import driver.game.Launcher;
 import driver.game.drawings.Environment;
 import java.awt.Graphics;
 import java.lang.reflect.Array;
+import java.time.Year;
 
 import driver.game.calculations.Movement;
 
@@ -128,6 +129,7 @@ public class Points {
         // g.drawRect((int) frontLeft[0], (int) frontLeft[1], 10, 10);
         // g.drawRect((int) backLeft[0], (int) backLeft[1], 10, 10);
         // g.drawRect((int) backRight[0], (int) backRight[1], 10, 10);
+        
         
         return new double[][]{frontRight, frontLeft, backLeft, backRight};
 

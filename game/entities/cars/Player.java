@@ -40,6 +40,10 @@ public class Player extends Cars {
     private double pointsCounterMultiplierMultiplier;
     
     private double[][] playerCorners;
+    private double[][] cornerHitboxes;
+
+    // ai inputs
+    boolean go, stop, left, right;
 
     public Player(Game game, float x, float y) {
         super(x, y);
@@ -61,11 +65,186 @@ public class Player extends Cars {
         pointsCounterThreshold = 60;
         pointsCounterMultiplier = 1;
         pointsCounterMultiplierMultiplier = 0.1;
+
+        // ai inputs
+        go = false;
+        stop = false;
+        left = false;
+        right = false;
     }
 
-    @Override
-    public void tick() {
+    // @Override
+    // public void tick() {
         
+    //     // physics -----------------------
+    //     // if not turning==
+    //     if(!game.getKeyManager().right && !game.getKeyManager().left){
+    //         // yTemp = y;
+    //         // xTemp = x;
+    //         // movement.angle = 0;
+    //     }
+
+    //     // if accelerating==
+    //     if(game.getKeyManager().accelerate){
+    //         //if not turning
+    //         if(!game.getKeyManager().right && !game.getKeyManager().left){
+    //             movement.accelerate();
+    //         }
+    //         //if turning
+    //         else if(game.getKeyManager().right || game.getKeyManager().left){
+    //             if(game.getKeyManager().left && !game.getKeyManager().right){
+    //                 movement.accelerate();
+    //                 movement.calcTurnLeft();
+    //                 y = (float) (yTemp + movement.actualRiseY);
+    //                 x = (float) (xTemp + movement.actualRiseX);
+    //                 yTemp = y;
+    //                 xTemp = x;
+
+    //             }
+    //             if(!game.getKeyManager().left && game.getKeyManager().right){
+    //                 movement.accelerate();
+    //                 movement.calcTurnRight();
+    //                 y = (float) (yTemp + movement.actualRiseY);
+    //                 x = (float) (xTemp + movement.actualRiseX);
+    //                 yTemp = y;
+    //                 xTemp = x;
+
+    //             }
+    //         }
+    //     }
+
+    //     // if deccelerating==
+    //     if(game.getKeyManager().decelerate){
+    //         //if not turning
+    //         if(!game.getKeyManager().right && !game.getKeyManager().left){
+    //             movement.decelerate();
+    //         }
+    //         //if turning
+    //         else if(game.getKeyManager().right || game.getKeyManager().left){
+    //             if(game.getKeyManager().left && !game.getKeyManager().right){
+    //                 movement.decelerate();
+    //                 if(movement.velocity > 0){
+    //                     movement.calcTurnLeft();
+    //                     y = (float) (yTemp + movement.actualRiseY);
+    //                     x = (float) (xTemp + movement.actualRiseX);
+    //                     yTemp = y;
+    //                     xTemp = x;
+
+    //                 }
+    //             }
+    //             if(!game.getKeyManager().left && game.getKeyManager().right){
+    //                 movement.decelerate();
+    //                 if(movement.velocity > 0){
+    //                     movement.calcTurnRight();
+    //                     y = (float) (yTemp + movement.actualRiseY);
+    //                     x = (float) (xTemp + movement.actualRiseX);
+    //                     yTemp = y;
+    //                     xTemp = x;
+    
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     // if gliding==
+    //     if(!game.getKeyManager().decelerate && !game.getKeyManager().accelerate){
+    //         //if not turning
+    //         if(!game.getKeyManager().right && !game.getKeyManager().left){
+    //             movement.slowDown();
+    //         }
+    //         //if turning
+    //         else if(game.getKeyManager().right || game.getKeyManager().left){
+    //             if(game.getKeyManager().left && !game.getKeyManager().right){
+    //                 movement.turnSlowDown();
+    //                 if(movement.velocity > 0){
+    //                     movement.calcTurnLeft();
+    //                     y = (float) (yTemp + movement.actualRiseY);
+    //                     x = (float) (xTemp + movement.actualRiseX);
+    //                     yTemp = y;
+    //                     xTemp = x;
+
+    //                 }
+    //             }
+    //             if(!game.getKeyManager().left && game.getKeyManager().right){
+    //                 movement.turnSlowDown();
+    //                 if(movement.velocity > 0){
+    //                     movement.calcTurnRight();
+    //                     y = (float) (yTemp + movement.actualRiseY);
+    //                     x = (float) (xTemp + movement.actualRiseX);
+    //                     yTemp = y;
+    //                     xTemp = x;
+    
+
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     // if not turning 
+    //     if(!game.getKeyManager().left && !game.getKeyManager().right){
+    //         movement.calcStraight();
+    //         y += movement.riseYLinear;
+    //         x += movement.riseXLinear;
+    //         yTemp = y;
+    //         xTemp = x;
+    //     }
+
+    //     // if trying to turn both ways just go straight
+    //     if(game.getKeyManager().left && game.getKeyManager().right){
+    //         movement.calcStraight();
+    //         y += movement.riseYLinear;
+    //         x += movement.riseXLinear;
+    //         yTemp = y;
+    //         xTemp = x;
+    //     }
+
+    //     // drawings only --------
+    //     // base figure, straight and no brake
+    //     car = Assets.carStraightNo;
+
+    //     // braking
+    //     if(game.getKeyManager().decelerate){
+    //         car = Assets.carStraightBrake;
+    //         movement.decelerate();
+    //     }
+    //     // turning without braking
+    //     if(game.getKeyManager().left && !game.getKeyManager().right && !game.getKeyManager().decelerate){
+    //         car = Assets.carLeftNo;
+    //     }
+    //     if(game.getKeyManager().right && !game.getKeyManager().left && !game.getKeyManager().decelerate){
+    //         car = Assets.carRightNo;
+    //     }
+    //     // turning with braking
+    //     if(game.getKeyManager().left && !game.getKeyManager().right && game.getKeyManager().decelerate){
+    //         car = Assets.carLeftBrake;
+    //     }
+    //     if(game.getKeyManager().right && !game.getKeyManager().left && game.getKeyManager().decelerate){
+    //         car = Assets.carRightBrake;
+    //     }
+    //     if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().decelerate){
+    //         car = Assets.carStraightBrake;
+    //     }
+    //     if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().accelerate){
+    //         car = Assets.carStraightNo;
+    //     }
+
+    //     // rotates the image
+    //     car = Assets.rotate(car, -movement.angleLeft);
+        
+    //     collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
+    // }
+
+    public void tick(){
+        tickAi();
+
+        // resetting ai inputs
+        go = false;
+        stop = false;
+        left = false;
+        right = false;
+    }
+
+    public void tickAi() {
+        // System.out.println(movement.velocity);
         // physics -----------------------
         // if not turning==
         if(!game.getKeyManager().right && !game.getKeyManager().left){
@@ -75,14 +254,14 @@ public class Player extends Cars {
         }
 
         // if accelerating==
-        if(game.getKeyManager().accelerate){
+        if(go){
             //if not turning
-            if(!game.getKeyManager().right && !game.getKeyManager().left){
+            if(!right && !left){
                 movement.accelerate();
             }
             //if turning
-            else if(game.getKeyManager().right || game.getKeyManager().left){
-                if(game.getKeyManager().left && !game.getKeyManager().right){
+            else if(right || left){
+                if(left && !right){
                     movement.accelerate();
                     movement.calcTurnLeft();
                     y = (float) (yTemp + movement.actualRiseY);
@@ -91,7 +270,7 @@ public class Player extends Cars {
                     xTemp = x;
 
                 }
-                if(!game.getKeyManager().left && game.getKeyManager().right){
+                if(!left && right){
                     movement.accelerate();
                     movement.calcTurnRight();
                     y = (float) (yTemp + movement.actualRiseY);
@@ -104,14 +283,14 @@ public class Player extends Cars {
         }
 
         // if deccelerating==
-        if(game.getKeyManager().decelerate){
+        if(stop){
             //if not turning
-            if(!game.getKeyManager().right && !game.getKeyManager().left){
+            if(!right && !left){
                 movement.decelerate();
             }
             //if turning
-            else if(game.getKeyManager().right || game.getKeyManager().left){
-                if(game.getKeyManager().left && !game.getKeyManager().right){
+            else if(right || left){
+                if(left && !right){
                     movement.decelerate();
                     if(movement.velocity > 0){
                         movement.calcTurnLeft();
@@ -122,7 +301,7 @@ public class Player extends Cars {
 
                     }
                 }
-                if(!game.getKeyManager().left && game.getKeyManager().right){
+                if(!left && right){
                     movement.decelerate();
                     if(movement.velocity > 0){
                         movement.calcTurnRight();
@@ -137,14 +316,14 @@ public class Player extends Cars {
         }
 
         // if gliding==
-        if(!game.getKeyManager().decelerate && !game.getKeyManager().accelerate){
+        if(!stop && !go){
             //if not turning
-            if(!game.getKeyManager().right && !game.getKeyManager().left){
+            if(!right && !left){
                 movement.slowDown();
             }
             //if turning
-            else if(game.getKeyManager().right || game.getKeyManager().left){
-                if(game.getKeyManager().left && !game.getKeyManager().right){
+            else if(right || left){
+                if(left && !right){
                     movement.turnSlowDown();
                     if(movement.velocity > 0){
                         movement.calcTurnLeft();
@@ -155,7 +334,7 @@ public class Player extends Cars {
 
                     }
                 }
-                if(!game.getKeyManager().left && game.getKeyManager().right){
+                if(!left && right){
                     movement.turnSlowDown();
                     if(movement.velocity > 0){
                         movement.calcTurnRight();
@@ -170,7 +349,7 @@ public class Player extends Cars {
             }
         }
         // if not turning 
-        if(!game.getKeyManager().left && !game.getKeyManager().right){
+        if(!left && !right){
             movement.calcStraight();
             y += movement.riseYLinear;
             x += movement.riseXLinear;
@@ -179,7 +358,7 @@ public class Player extends Cars {
         }
 
         // if trying to turn both ways just go straight
-        if(game.getKeyManager().left && game.getKeyManager().right){
+        if(left && right){
             movement.calcStraight();
             y += movement.riseYLinear;
             x += movement.riseXLinear;
@@ -192,42 +371,41 @@ public class Player extends Cars {
         car = Assets.carStraightNo;
 
         // braking
-        if(game.getKeyManager().decelerate){
+        if(stop){
             car = Assets.carStraightBrake;
             movement.decelerate();
         }
         // turning without braking
-        if(game.getKeyManager().left && !game.getKeyManager().right && !game.getKeyManager().decelerate){
+        if(left && !right && !stop){
             car = Assets.carLeftNo;
         }
-        if(game.getKeyManager().right && !game.getKeyManager().left && !game.getKeyManager().decelerate){
+        if(right && !left && !stop){
             car = Assets.carRightNo;
         }
         // turning with braking
-        if(game.getKeyManager().left && !game.getKeyManager().right && game.getKeyManager().decelerate){
+        if(left && !right && stop){
             car = Assets.carLeftBrake;
         }
-        if(game.getKeyManager().right && !game.getKeyManager().left && game.getKeyManager().decelerate){
+        if(game.getKeyManager().right && !left && stop){
             car = Assets.carRightBrake;
         }
-        if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().decelerate){
+        if(left && right && stop){
             car = Assets.carStraightBrake;
         }
-        if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().accelerate){
+        if(left && right && go){
             car = Assets.carStraightNo;
         }
 
         // rotates the image
         car = Assets.rotate(car, -movement.angleLeft);
-        
-        collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
+        cornerHitboxes = pointsClass.renderHitbox(movement, x, y);
+        collisionEnvironment(cornerHitboxes);
     }
 
     @Override
     public void render(Graphics g) {
 
         g.drawImage(car, (int) x, (int) y, null);
-        
         // pointsClass.renderHitbox(g, movement, x, y);
     }
 
@@ -319,17 +497,40 @@ public class Player extends Cars {
         return movement.base;
     }
 
-    public void accelerate(){
-        movement.accelerate();
-    }
-
-    public void decelerate(){
-        movement.decelerate();
+    public double[][] cornersGetter(){
+        return cornerHitboxes;
     }
 
     // setters
     public void xSetter(double x){
         this.x = (float) x;
+    }
+
+    public double angleRightGetter(){
+        return movement.angleRight;
+    }
+
+    public void velocitySetter(double velocity){
+        movement.velocity = velocity;
+    }
+
+    // ai inputs
+    public void accelerate(){
+        // movement.accelerate();
+        go = true;
+    }
+
+    public void decelerate(){
+        // movement.decelerate();
+        stop = true;
+    }
+
+    public void turnLeft(){
+        left = true;
+    }
+
+    public void turnRight(){
+        right = true;
     }
 
     

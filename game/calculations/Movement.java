@@ -23,8 +23,9 @@ public class Movement{
         this.deceleration = deceleration;
         this.velocityLimit = velocityLimit;
 
-        angleLeft = 0;
-        angleRight = 180;
+        int startingAngle = 10;
+        angleLeft = startingAngle;
+        angleRight = startingAngle + 180;
         rBase = 50; // 50 is the base
         riseX = 0;
         riseY = 0;

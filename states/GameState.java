@@ -52,7 +52,7 @@ public class GameState extends State {
         //     player.decelerationGetter(),
         //     player.baseGetter()
         //     );
-        playerAi.tick(player, trafficLight.stateGetter());
+        playerAi.tick(player, trafficLight.stateGetter(), cpuLoop.getter());
 
     }
 

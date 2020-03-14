@@ -40,15 +40,21 @@ public class TrafficLights extends Entity {
         greenLength = 5 * 60; // 60 frames per second
         redLength = greenLength + yellowLength + redDelay + redDelay; // 60 second delay between lights changing
 
-        light11 = greenLight;
-        light12 = redLight;
-        light21 = redLight;
-        light22 = greenLight;
+        double randomLightState = Math.round(Math.random());
+        light11 = randomLightState==1 ? greenLight:redLight;
+        light12 = randomLightState==1 ? redLight:greenLight;;
+        light21 = randomLightState==1 ? redLight:greenLight;;
+        light22 = randomLightState==1 ? greenLight:redLight;;
 
-        stateArray = new int[]{1, 0, 0 ,1};
+        stateArray = new int[]{randomLightState==1 ? 1:0,
+            randomLightState==1 ? 0:1,
+            randomLightState==1 ? 0:1,
+            randomLightState==1 ? 1:0};
 
-        lightCount12 = redDelay;
-        lightCount21 = redDelay;
+        if(light11 == redLight) lightCount11 = redDelay;
+        if(light12 == redLight) lightCount12 = redDelay;
+        if(light21 == redLight) lightCount21 = redDelay;
+        if(light22 == redLight) lightCount22 = redDelay;
 
         lightSpacing = Environment.roadWidth/2;
 
