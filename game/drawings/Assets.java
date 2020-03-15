@@ -19,6 +19,7 @@ public class Assets{
     public static BufferedImage trafficLightGreen;
     public static BufferedImage trafficLightYellow;
     public static BufferedImage environment;
+    public static BufferedImage cloud, cloud1, cloud2, cloud3;
     
     public static int trafficLightWidth,carLength, carWidth;
 
@@ -35,7 +36,7 @@ public class Assets{
     carStraightBrakeYellow
     ;
 
-    public static BufferedImage[] cpuColorArrayNo, cpuColorArrayBrake;
+    public static BufferedImage[] cpuColorArrayNo, cpuColorArrayBrake, cloudArray;
 
     public static void init(){
         carStraightNo = ImageLoader.loadImage("/driver/res/textures/carStraightNoBrake.png");
@@ -85,6 +86,18 @@ public class Assets{
         carLength = carStraightNo.getWidth();
         carWidth = carStraightNo.getHeight();
         trafficLightWidth = trafficLightRed.getWidth(); // uselss??
+
+        // clouds
+        cloud = ImageLoader.loadImage("/driver/res/textures/cloud.png");
+        cloud1 = ImageLoader.loadImage("/driver/res/textures/cloud1.png");
+        cloud2 = ImageLoader.loadImage("/driver/res/textures/cloud2.png");
+        cloud3 = ImageLoader.loadImage("/driver/res/textures/cloud3.png");
+        cloudArray = new BufferedImage[]{
+            cloud,
+            cloud1,
+            cloud2,
+            cloud3
+        };
 
         environment = ImageLoader.loadImage("/driver/res/textures/environment.png");
     }

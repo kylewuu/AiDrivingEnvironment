@@ -7,6 +7,7 @@ import driver.game.Game;
 import driver.game.Launcher;
 import driver.game.drawings.Environment;
 import driver.game.entities.cars.Player;
+import driver.game.entities.clouds.CloudsLoop;
 import driver.game.entities.trafficLight.TrafficLights;
 import driver.game.entities.cars.CPULoop;
 
@@ -19,6 +20,7 @@ public class GameState extends State {
     private TrafficLights trafficLight;
     private CPULoop cpuLoop;
     private PlayerAi playerAi;
+    private CloudsLoop cloudLoop;
 
     public GameState(Game game, PlayerAi trainedPlayerAi){
         super(game);
@@ -32,6 +34,7 @@ public class GameState extends State {
         
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
         cpuLoop = new CPULoop();
+        cloudLoop = new CloudsLoop();
         playerAi = trainedPlayerAi;
 
     }
@@ -43,6 +46,7 @@ public class GameState extends State {
         cpuLoop.speedControl(trafficLight.stateGetter());
         player.trafficLightGetter(trafficLight.stateGetter());
         cpuLoop.tick();
+        cloudLoop.tick();
         player.collisionCPU(cpuLoop.getter());
         // playerAi.tick(
         //     player.xGetter(),
@@ -62,6 +66,8 @@ public class GameState extends State {
         player.render(g);
         cpuLoop.render(g);
         trafficLight.render(g);
+        cloudLoop.render(g);
+
     }
     
 }

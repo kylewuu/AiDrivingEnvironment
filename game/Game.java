@@ -30,6 +30,7 @@ public class Game implements Runnable {
     //States
     public State gameState;
     public State menuState;
+    private PlayerAi initTraining;
     
     // input
     private KeyManager keyManager;
@@ -63,7 +64,7 @@ public class Game implements Runnable {
     }
 
     public void initGameState(){
-        PlayerAi initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
+        initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
         gameState = new GameState(this, initTraining);
         running = true;
     }
@@ -117,6 +118,13 @@ public class Game implements Runnable {
                 tick();
                 render();
                 gameController.delta --;
+            }
+
+            // restart the game not from menu
+            if(keyManager.restart){
+                System.out.println("Restart");
+                gameState = new GameState(this, initTraining);
+                State.setState(gameState);
             }
 
         }
