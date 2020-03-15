@@ -70,12 +70,11 @@ public class PlayerAi{
         randomizeTurnLine();
         randomizeMiddleStopLine();
 
-        environmentAi.train(environmentTrainData, environmentTrainResult, 2, 4, 3, 100);
+        // System.out.println("STARTED\n\n\n\n\n\n\n\n\n\n\n");
+        environmentAi.train(environmentTrainData, environmentTrainResult, 2, 4, 3, 1000);
         stopLightSideAi.train(stopLightSideTrainData, stopLightSideTrainResult, 2, 3, 1, 1000);
         turnLineSideAi.train(turnLineSideTrainData, turnLineSideTrainResult, 2, 3, 2, 1000);
-        middleLineAi.train(stopMiddleTrainData, stopMiddleTrainResult, 3, 4, 1, 10000);
-
-
+        middleLineAi.train(stopMiddleTrainData, stopMiddleTrainResult, 3, 4, 1, 1000);
     }
     private void randomizeEnvironment(){
         // Random ran = new Random();
@@ -299,7 +298,7 @@ public class PlayerAi{
             }
         }
 
-        System.out.println(trafficFlag + " : "+distanceFlag + " : "+trafficLightState);
+        // System.out.println(trafficFlag + " : "+distanceFlag + " : "+trafficLightState);
         if(Math.round((float)middleLineAi.run(new double[]{trafficFlag, distanceFlag, trafficLightState})[0]) == 0) player.accelerate();
         else player.decelerate();
 

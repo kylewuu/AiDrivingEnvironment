@@ -12,7 +12,12 @@ public class MenuState extends State {
     @Override
     public void tick() {
         // TODO Auto-generated method stub
+        System.out.println(game.getMouseManager().getMouseX() + " : " + game.getMouseManager().getMouseY());
+        if(game.getMouseManager().isLeftPressed()){
+            game.initGameState();
+            State.setState(game.gameState);
 
+        }
     }
 
     @Override

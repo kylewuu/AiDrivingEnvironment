@@ -26,7 +26,7 @@ public class CPU{
         deceleration = 0.4;
         acceleration = 0.3 + (Math.random() * 0.3);
 
-        topSpeed = 50;
+        topSpeed = 50 + ((int)(Math.random() * (10)));
         velocity = topSpeed;
         base = 12;
 
@@ -50,7 +50,7 @@ public class CPU{
                 brake = Assets.rotate(brake, 180);
                 noBrake = Assets.rotate(noBrake, 180);
                 x = Launcher.width/2 - 40;
-                y = -Launcher.width + 200;
+                y = -200;
 
                 x1 = x + 23;
                 y1 = y + 41;
@@ -81,7 +81,7 @@ public class CPU{
                 brake = Assets.rotate(brake, 180);
                 noBrake = Assets.rotate(noBrake, 180);
                 x = Launcher.width/2 - 92;
-                y = -Launcher.width + 200;
+                y = -200;
 
                 x1 = x + 23;
                 y1 = y + 41;

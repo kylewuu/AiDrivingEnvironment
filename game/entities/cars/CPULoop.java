@@ -29,6 +29,7 @@ public class CPULoop{
     public CPULoop(){
         carArray = new ArrayList<CPU>();
         directionArray = new String[]{"side", "topUp", "topDown", "side1", "topUp1", "topDown1", "sideLeft"};
+        
         initNew();
         deceleration = carArray.get(0).deceleration;
         spacerCount = 0;
@@ -42,6 +43,15 @@ public class CPULoop{
         carArray.add(new CPU(directionArray[(int)(Math.random() * 7)]));
         
         // carArray.add(new CPU(directionArray[6]));
+
+    }
+
+    public void initAll(){
+        carArray.add(new CPU(directionArray[1]));
+        carArray.add(new CPU(directionArray[2]));
+        carArray.add(new CPU(directionArray[1]));
+        carArray.add(new CPU(directionArray[5]));
+        carArray.add(new CPU(directionArray[6]));
 
     }
 

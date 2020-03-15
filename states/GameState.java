@@ -20,19 +20,19 @@ public class GameState extends State {
     private CPULoop cpuLoop;
     private PlayerAi playerAi;
 
-    public GameState(Game game){
+    public GameState(Game game, PlayerAi trainedPlayerAi){
         super(game);
+        
         carStartingX = 15;
         carStartingY = (Launcher.height/2 + 20) - 9;
         player = new Player(game, carStartingX, carStartingY);
-
+        
         trafficLightStartingX = Launcher.width/2;
         trafficLightStartingY = Launcher.height/2;
-
+        
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
         cpuLoop = new CPULoop();
-        playerAi = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
-        
+        playerAi = trainedPlayerAi;
 
     }
 

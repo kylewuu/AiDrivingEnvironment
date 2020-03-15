@@ -21,14 +21,14 @@ public class Train {
 				backprop.train(trainData[i], trainResults[i],
 						learningRate, momentum);
 			}
-			// if ((iterations + 1) % 1000 == 0) {
-			// 	System.out.println("Iteration #" + iterations+"\n");
-			// 	for (int i = 0; i < trainResults.length; i++) {
-			// 		double[] data = trainData[i];
-			// 		double[] calculatedOutput = backprop.run(data);
-			// 		System.out.println(data[0]+", "+data[1]+ " --> " +Math.round(calculatedOutput[0])+" - "+ Math.round(calculatedOutput[1])+" - "+ Math.round(calculatedOutput[2]));
-			// 	}
-			// }
+			if ((iterations + 1) % 1000 == 0) {
+				System.out.println("Loading...");
+				// for (int i = 0; i < trainResults.length; i++) {
+				// 	double[] data = trainData[i];
+				// 	double[] calculatedOutput = backprop.run(data);
+				// 	System.out.println(data[0]+", "+data[1]+ " --> " +Math.round(calculatedOutput[0])+" - "+ Math.round(calculatedOutput[1])+" - "+ Math.round(calculatedOutput[2]));
+				// }
+			}
 		}
 
 	}

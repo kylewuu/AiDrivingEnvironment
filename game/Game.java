@@ -3,10 +3,14 @@ package driver.game;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import driver.ai.PlayerAi;
+import driver.ai.Train;
+
 import driver.display.Display;
 import driver.game.drawings.Assets;
 import driver.game.drawings.Environment;
 import driver.input.KeyManager;
+import driver.input.MouseManager;
 import driver.states.GameState;
 import driver.states.MenuState;
 import driver.states.State;
@@ -23,34 +27,45 @@ public class Game implements Runnable {
     public Graphics g;
     private GameController gameController;  
     
-    
-    
     //States
-    private State gameState;
-    private State menuState;
+    public State gameState;
+    public State menuState;
     
     // input
     private KeyManager keyManager;
+    private MouseManager mouseManager;
 
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
         this.title = title;
         keyManager = new KeyManager();
+        mouseManager = new MouseManager();
     }
     
     private void init(){
         display = new Display(title, width, height);
         display.getFrame().addKeyListener(keyManager);
-        gameController = new GameController();
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
+
+        
         display.getCanvas();
         Environment.init(width, height);
         Assets.init();
 
-        gameState = new GameState(this);
+        // gameState = new GameState(this);
         menuState = new MenuState(this);
-        State.setState(gameState);
+        State.setState(menuState);
 
+    }
+
+    public void initGameState(){
+        PlayerAi initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
+        gameState = new GameState(this, initTraining);
+        running = true;
     }
 
     // for updating
@@ -85,7 +100,17 @@ public class Game implements Runnable {
 
     public void run() {
         init();
-        gameController.init();
+        
+        // menu state
+        while(!running){
+            tick();
+        }
+
+        // don't start counting the time yet so it doens't do any weird speeding up thing
+        if(running){
+            gameController = new GameController();
+            gameController.init();
+        }
 
         while(running){
             if(gameController.running() >= 1){
@@ -102,9 +127,13 @@ public class Game implements Runnable {
         return keyManager;
     }
 
+    public MouseManager getMouseManager(){
+        return mouseManager;
+    }
+
     public synchronized void start() {
-        if(running) return;
-        running = true;
+        // if(running) return;
+        // running = true;
         thread = new Thread(this);
         thread.start();
       
