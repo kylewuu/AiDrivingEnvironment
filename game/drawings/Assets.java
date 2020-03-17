@@ -20,6 +20,7 @@ public class Assets{
     public static BufferedImage trafficLightYellow;
     public static BufferedImage environment;
     public static BufferedImage cloud, cloud1, cloud2, cloud3;
+    public static BufferedImage n0,n1,n2,n3,n4,n5,n6,n7,n8,n9;
     
     public static int trafficLightWidth,carLength, carWidth;
 
@@ -36,7 +37,7 @@ public class Assets{
     carStraightBrakeYellow
     ;
 
-    public static BufferedImage[] cpuColorArrayNo, cpuColorArrayBrake, cloudArray;
+    public static BufferedImage[] cpuColorArrayNo, cpuColorArrayBrake, cloudArray, numbersArray;
 
     public static void init(){
         carStraightNo = ImageLoader.loadImage("/driver/res/textures/carStraightNoBrake.png");
@@ -100,6 +101,32 @@ public class Assets{
         };
 
         environment = ImageLoader.loadImage("/driver/res/textures/environment.png");
+    
+        // number/points
+        n0 = ImageLoader.loadImage("/driver/res/textures/numbers/0.png");
+        n1 = ImageLoader.loadImage("/driver/res/textures/numbers/1.png");
+        n2 = ImageLoader.loadImage("/driver/res/textures/numbers/2.png");
+        n3 = ImageLoader.loadImage("/driver/res/textures/numbers/3.png");
+        n4 = ImageLoader.loadImage("/driver/res/textures/numbers/4.png");
+        n5 = ImageLoader.loadImage("/driver/res/textures/numbers/5.png");
+        n6 = ImageLoader.loadImage("/driver/res/textures/numbers/6.png");
+        n7 = ImageLoader.loadImage("/driver/res/textures/numbers/7.png");
+        n8 = ImageLoader.loadImage("/driver/res/textures/numbers/8.png");
+        n9 = ImageLoader.loadImage("/driver/res/textures/numbers/9.png");
+
+        numbersArray = new BufferedImage[]{
+            n0,
+            n1,
+            n2,
+            n3,
+            n4,
+            n5,
+            n6,
+            n7,
+            n8,
+            n9
+        };
+        
     }
 
     public static BufferedImage rotate(BufferedImage image, double degrees) {

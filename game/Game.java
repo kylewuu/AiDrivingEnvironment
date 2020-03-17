@@ -126,6 +126,13 @@ public class Game implements Runnable {
                 gameState = new GameState(this, initTraining);
                 State.setState(gameState);
             }
+
+            if(keyManager.right){
+                mouseManager.leftPressedSetFalse();
+                menuState = new MenuState(this);
+                State.setState(menuState);
+
+            }
             
 
         }

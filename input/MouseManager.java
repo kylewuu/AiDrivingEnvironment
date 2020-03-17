@@ -30,7 +30,11 @@ public class MouseManager implements MouseListener, MouseMotionListener{
         return mouseY;
     }
     // Implemented methods
-
+    
+    // setters
+    public void leftPressedSetFalse(){
+        leftPressed = false;
+    }
 
     @Override
     public void mouseDragged(MouseEvent e) {

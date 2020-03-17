@@ -67,6 +67,7 @@ public class GameState extends State {
         cpuLoop.render(g);
         trafficLight.render(g);
         cloudLoop.render(g);
+        player.pointsRender(g);
 
     }
     

@@ -7,11 +7,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import driver.game.Game;
+import driver.game.Launcher;
 import driver.game.calculations.Movement;
 import driver.game.calculations.Points;
 import driver.game.drawings.Assets;
 import java.util.List;
 import driver.game.entities.cars.CPU;
+
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
 
 
 public class Player extends Cars {
@@ -471,6 +475,30 @@ public class Player extends Cars {
                 break;
             }
             
+        }
+    }
+
+    public void pointsRender(Graphics g){
+        int digit = 0;
+        int temp = points;
+        // System.out.println("Starting points -------- "+points);
+        int y = Launcher.height - 50;
+        int xStarting = Launcher.width - 100;
+        int x = xStarting;
+        float alpha = (float) 1.0;
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setComposite(ac);
+
+        while(temp > 0){
+            digit = temp%10;
+            // System.out.println("points digit: " + digit);
+            temp = temp/10;
+            g.drawImage(Assets.numbersArray[digit], x, y, null);
+            x -= 20;
+        }
+        if(points < 0 ){
+            g.drawImage(Assets.numbersArray[0], xStarting, y, null);
         }
     }
 
