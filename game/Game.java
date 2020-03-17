@@ -126,6 +126,7 @@ public class Game implements Runnable {
                 gameState = new GameState(this, initTraining);
                 State.setState(gameState);
             }
+            
 
         }
         stop();
