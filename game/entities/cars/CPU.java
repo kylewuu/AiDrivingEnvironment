@@ -26,7 +26,7 @@ public class CPU{
         deceleration = 0.4;
         acceleration = 0.3 + (Math.random() * 0.3);
 
-        topSpeed = 50 + ((int)(Math.random() * (10)));
+        topSpeed = 50 + ((int)(Math.random() * (5)));
         velocity = topSpeed;
         base = 12;
 

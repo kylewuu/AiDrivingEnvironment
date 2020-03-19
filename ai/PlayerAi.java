@@ -27,6 +27,7 @@ public class PlayerAi{
     middleRight,
     middleBottom;
     int sideStateTurnThreshold;
+    int turnVelocityLimitter;
 
     double[][] environmentTrainData, environmentTrainResult;
 
@@ -36,10 +37,12 @@ public class PlayerAi{
 
     double[][] stopMiddleTrainData, stopMiddleTrainResult;
 
+    double[][] turnMiddleTrainData, turnMiddleTrainResult;
+
     private Train environmentAi;
     private Train stopLightSideAi;
-    private Train turnLineSideAi;
     private Train middleLineAi;
+    private Train turnAi;
 
     // empty constructor
     public PlayerAi(double[][] thresholds){
@@ -59,22 +62,25 @@ public class PlayerAi{
         topLeft = thresholds[2][3]/Launcher.width;
 
         sideStateTurnThreshold = 20;
+        turnVelocityLimitter = 35;
 
         environmentAi = new Train();
         stopLightSideAi = new Train();
-        turnLineSideAi = new Train();
         middleLineAi = new Train();
+        turnAi = new Train();
         
         randomizeEnvironment();
         randomizeSideStopLine();
-        randomizeTurnLine();
         randomizeMiddleStopLine();
+        randomizeMiddleTurn();
 
         // System.out.println("STARTED\n\n\n\n\n\n\n\n\n\n\n");
         environmentAi.train(environmentTrainData, environmentTrainResult, 2, 4, 3, 1000);
         stopLightSideAi.train(stopLightSideTrainData, stopLightSideTrainResult, 2, 3, 1, 1000);
-        turnLineSideAi.train(turnLineSideTrainData, turnLineSideTrainResult, 2, 3, 2, 1000);
-        middleLineAi.train(stopMiddleTrainData, stopMiddleTrainResult, 3, 4, 1, 1000);
+        // turnLineSideAi.train(turnLineSideTrainData, turnLineSideTrainResult, 2, 3, 2, 1000);
+        turnAi.train(turnMiddleTrainData, turnMiddleTrainResult, 4, 6, 2, 1000);
+        middleLineAi.train(stopMiddleTrainData, stopMiddleTrainResult, 4, 5, 1, 1000);
+        turnAi.train(turnMiddleTrainData, turnMiddleTrainResult, 4, 6, 2, 1000);
     }
     private void randomizeEnvironment(){
         // Random ran = new Random();
@@ -127,35 +133,27 @@ public class PlayerAi{
         
     }
 
-    private void randomizeTurnLine(){
-        // (traffic light, distance) 1 = leftOver, 1 = rightOver
-        turnLineSideTrainData = new double[][] {
-            {0,0},
-            {0,1},
-            {1,0},
-            {1,1}
-        };
-        // 1 = go
-        turnLineSideTrainResult= new double[][] {
-            {0,0},
-            {0,1},
-            {1,0},
-            {0,0}
-        };
-        
-    }
 
     private void randomizeMiddleStopLine(){
         // (traffic light, distance) 1==cars, 1== within distance, 1 == green
         stopMiddleTrainData = new double[][] {
-            {1,0,0}, // car in the way, not within distance, their red
-            {1,1,0}, // car, within d, their red
-            {1,1,1}, // car, within d, their green
-            {0,1,0}, // no car, within d, their red
-            {0,1,1}, // no car, withint distance, their green
-            {0,0,1}, // no car, not within d, their green
-            {1,0,1}, // car, no within d, their green
-            {0,0,0} // no car, not within d, their red
+            {1,0,0,0}, // car in the way, not within distance, their red
+            {1,1,0,0}, // car, within d, their red
+            {1,1,1,0}, // car, within d, their green
+            {0,1,0,0}, // no car, within d, their red
+            {0,1,1,0}, // no car, withint distance, their green
+            {0,0,1,0}, // no car, not within d, their green
+            {1,0,1,0}, // car, no within d, their green
+            {0,0,0,0}, // no car, not within d, their red
+
+            {1,0,0,1}, // car in the way, not within distance, their red
+            {1,1,0,1}, // car, within d, their red
+            {1,1,1,1}, // car, within d, their green
+            {0,1,0,1}, // no car, within d, their red
+            {0,1,1,1}, // no car, withint distance, their green
+            {0,0,1,1}, // no car, not within d, their green
+            {1,0,1,1}, // car, no within d, their green
+            {0,0,0,1} // no car, not within d, their red
         };
         // 1 == stop, 0 == go
         stopMiddleTrainResult= new double[][] {
@@ -166,15 +164,67 @@ public class PlayerAi{
             {0},
             {0},
             {0},
-            {0}
-            // {1},
-            // {1},
-            // {1},
-            // {1},
-            // {1},
-            // {1},
-            // {1},
-            // {1}
+            {0},
+
+            {1},
+            {1},
+            {1},
+            {1},
+            {1},
+            {1},
+            {1},
+            {1}
+            
+        };
+    }
+
+    private void randomizeMiddleTurn(){
+        turnMiddleTrainData = new double[][] {
+            // left angle, left lane, right angle, right lane
+            {1,0,0,0}, // right
+            {1,1,0,0}, // right
+            {1,1,1,0}, // not possible
+            {1,1,1,1}, // not possible
+
+            {1,0,1,0}, // straight
+            {1,0,0,1}, // straight
+            {1,1,0,1}, // straight
+            {1,0,1,1}, // straight
+
+            {0,1,0,0}, // right
+            {0,1,1,0}, // left
+            {0,1,0,1}, // straight
+            {0,1,1,1}, // straight
+
+            {0,0,1,0}, // left
+            {0,0,1,1}, // left
+            {0,0,0,1}, // left
+            {0,0,0,0} //  straight
+            
+        };
+            
+        // left, right
+        turnMiddleTrainResult= new double[][] {
+            {0,1},
+            {0,1},
+            {0,0},
+            {0,0},
+
+            {0,0},
+            {0,0},
+            {0,0},
+            {0,0},
+
+            {0,1},
+            {0,0},
+            {0,0},
+            {0,0},
+
+            {1,0},
+            {1,0},
+            {1,0},
+            {0,0}
+            
         };
     }
 
@@ -199,12 +249,12 @@ public class PlayerAi{
         }
         // intersection
         else if(Math.round(stateArray[1]) == 1){
-            // System.out.println("middle");
             middleStateStopTick(player, cpuList, trafficLightStates[0]);
+            middleStateTurnTick(player);
         }
         // upper street
         else if(Math.round(stateArray[2]) == 1){
-
+            topStateTurnTick(player);
         }
     }
 
@@ -234,33 +284,28 @@ public class PlayerAi{
     }
 
     private void sideStateTurnTick(Player player){
-        int rightFlag = 0;
-        int leftFlag = 0;
-        double[][] corners = player.cornersGetter();
-        double highestPoint = corners[0][1];
-        double lowestPoint = corners[3][1];
+        int trafficLine = 418;
+        int rightLane = 0;
+        int leftLane = 0;
+        int rightAngle = 0;
+        int leftAngle = 0;
 
-        if((highestPoint - sideTop*Launcher.height) < sideStateTurnThreshold){
-            rightFlag = 1;
+        if(player.yGetter() > trafficLine){
+            rightLane = 1;
         }
-        if((lowestPoint - sideBottom*Launcher.height) > -sideStateTurnThreshold){
-            leftFlag = 1;
+        if(player.yGetter() < trafficLine){
+            leftLane = 1;
         }
-        // System.out.println(Math.abs(player.angleRightGetter())%360);
+
+        if(player.angleRightGetter()%360 < 180 ){
+            rightAngle = 1;
+        }
         if(player.angleRightGetter()%360 > 180){
-            rightFlag = 1;
-        }
-        if(player.angleRightGetter()%360 < 180){
-            leftFlag = 1;
+            leftAngle = 1;
         }
 
-        // System.out.println("left: "+leftFlag +  " right: " + rightFlag);
-
-        // System.out.println(Arrays.toString(turnLineSideAi.run(new double[]{leftFlag, rightFlag})));
-        double[] turnResponse = turnLineSideAi.run(new double[]{leftFlag, rightFlag});
-        // double[] turnResponse = new double[]{0,0};
-        if(Math.round(turnResponse[0]) == 1) player.turnLeft();
-        if(Math.round(turnResponse[1]) == 1) player.turnRight();
+        if(Math.round((float)turnAi.run(new double[]{leftAngle, leftLane, rightAngle, rightLane})[1]) == 1) player.turnRight();
+        if(Math.round((float)turnAi.run(new double[]{leftAngle, leftLane, rightAngle, rightLane })[0]) == 1) player.turnLeft();
 
         
     }
@@ -269,11 +314,12 @@ public class PlayerAi{
     private void middleStateStopTick(Player player, List<CPU> cpuList, int trafficLightState){
 
         // acceleration
-        double trafficLine = middleLeft*Launcher.width + 100;
+        double trafficLine = middleLeft*Launcher.width + 25;
         double safeDistanceToTurnStart = middleRight*Launcher.width + 100;
         double safeDistanceToTurnEnd = middleRight*Launcher.width - 100;
         int distanceFlag;
         int trafficFlag = 0;
+        int speedCheck = 0;
 
         double velocity = player.velocityGetter()/player.baseGetter();
         distanceFlag = 0;
@@ -298,10 +344,72 @@ public class PlayerAi{
             }
         }
 
-        // System.out.println(trafficFlag + " : "+distanceFlag + " : "+trafficLightState);
-        if(Math.round((float)middleLineAi.run(new double[]{trafficFlag, distanceFlag, trafficLightState})[0]) == 0) player.accelerate();
+        if(Math.round((float)middleLineAi.run(new double[]{trafficFlag, distanceFlag, trafficLightState, speedCheck})[0]) == 0) {
+            player.accelerate();
+        }
         else player.decelerate();
 
+    }
+
+    public void middleStateTurnTick(Player player){
+        double trafficLine = 769; // middle of the upper lane
+        double turnVelocityCalculator = 1.3;
+
+        int rightLane = 0;
+        int rightAngle = 0;
+        int leftLane = 0;
+        int leftAngle = 0;
+
+        if(player.xGetter() > trafficLine){
+            rightLane = 1;
+        }
+        if(player.xGetter() < trafficLine){
+            leftLane = 1;
+        }
+
+        if(player.angleRightGetter()%360 < 270 ){
+            rightAngle = 1;
+        }
+        if(player.angleRightGetter()%360 > 270){
+            leftAngle = 1;
+        }
+        if(player.angleRightGetter()%360 > 90 && player.angleRightGetter() < 220 + player.velocityGetter()/turnVelocityCalculator){
+            rightLane = 1;
+            leftLane = 0;
+        }
+        if(player.velocityGetter() > turnVelocityLimitter) player.decelerate();
+
+        // System.out.println(leftAngle+" : "+leftLane+" : "+rightAngle+" : "+rightLane);
+        if(Math.round((float)turnAi.run(new double[]{leftAngle, leftLane, rightAngle, rightLane})[1]) == 1) player.turnRight();
+        if(Math.round((float)turnAi.run(new double[]{leftAngle, leftLane, rightAngle, rightLane })[0]) == 1) player.turnLeft();
+    }
+
+    public void topStateTurnTick(Player player){
+        double trafficLine = 769; // middle of the upper lane
+
+        int rightLane = 0;
+        int rightAngle = 0;
+        int leftLane = 0;
+        int leftAngle = 0;
+
+        if(player.xGetter() > trafficLine){
+            rightLane = 1;
+        }
+        if(player.xGetter() < trafficLine){
+            leftLane = 1;
+        }
+
+        if(player.angleRightGetter()%360 < 270 ){
+            rightAngle = 1;
+        }
+        if(player.angleRightGetter()%360 > 270){
+            leftAngle = 1;
+        }
+        player.accelerate(); // go since in top side, no need to stop
+
+        // System.out.println(leftAngle+" : "+leftLane+" : "+rightAngle+" : "+rightLane);
+        if(Math.round((float)turnAi.run(new double[]{leftAngle, leftLane, rightAngle, rightLane})[1]) == 1) player.turnRight();
+        if(Math.round((float)turnAi.run(new double[]{leftAngle, leftLane, rightAngle, rightLane })[0]) == 1) player.turnLeft();
     }
 
 }
