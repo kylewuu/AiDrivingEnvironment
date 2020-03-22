@@ -24,6 +24,9 @@ public class MenuState extends State {
     int increaseX, increaseY;
     int increaseDecreaseWidth, displayWidth, startWidth;
     int increaseDecreaseHeight, displayHeight, startHeight;
+    int freeX, freeY , freeWidth, freeHeight;
+
+    public boolean freeplay;
 
     public static int  iterationsChosen;
     int iterationsChooseJump;
@@ -38,11 +41,18 @@ public class MenuState extends State {
         iterationsChooseJump = 5;
         iterationsChosen = iterationsChooseJump; // default iterations to 100;
 
+        freeplay = false;
+
         int gapBetweenButton = 25;
         startX = Launcher.width/2 - 150;
         startY = 350;
         startWidth = 300;
         startHeight = 50;
+
+        freeX = startX;
+        freeY = startY + startHeight + 50;
+        freeWidth = startWidth;
+        freeHeight = startHeight;
 
         increaseDecreaseWidth = 50;
         increaseDecreaseHeight = 50;
@@ -66,12 +76,18 @@ public class MenuState extends State {
 
         if(game.getMouseManager().isLeftPressed()){
             if(startDetection()){
-                game.initGameState(iterationsChosen);
+                game.initGameState(iterationsChosen, freeplay);
                 State.setState(game.gameState);
             }
 
             if(increaseDetection()) iterationsChosen += iterationsChooseJump;
             if(decreaseDetection() && iterationsChosen>= iterationsChooseJump) iterationsChosen -= iterationsChooseJump;
+            if(freeplayDetection()){
+                freeplay = true;
+                game.initGameState(iterationsChosen, freeplay);
+                State.setState(game.gameState);
+            }
+            
 
 
 
@@ -87,6 +103,7 @@ public class MenuState extends State {
         g.fillRect(decreaseX, decreaseY, increaseDecreaseWidth, increaseDecreaseHeight); // decrease button
         g.fillRect(displayX, displayY, displayWidth, displayHeight); // display button
         g.fillRect(increaseX, increaseY, increaseDecreaseWidth, increaseDecreaseHeight); // increase button
+        g.fillRect(freeX, freeY, freeWidth, freeHeight);
         displayIteration(g); // rendering points
     }
 
@@ -141,6 +158,15 @@ public class MenuState extends State {
         game.getMouseManager().getMouseX() <= decreaseX + increaseDecreaseWidth && 
         game.getMouseManager().getMouseY() >= decreaseY &&
         game.getMouseManager().getMouseY() <= decreaseY + increaseDecreaseHeight) return true;
+        return false;
+    }
+
+    public boolean freeplayDetection(){
+        game.getMouseManager().leftPressedSetFalse();
+        if(game.getMouseManager().getMouseX() >= freeX && 
+        game.getMouseManager().getMouseX() <= freeX + freeWidth && 
+        game.getMouseManager().getMouseY() >= freeY &&
+        game.getMouseManager().getMouseY() <= freeY + freeHeight) return true;
         return false;
     }
 }

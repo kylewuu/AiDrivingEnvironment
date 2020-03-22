@@ -22,12 +22,12 @@ public class GameState extends State {
     private PlayerAi playerAi;
     private CloudsLoop cloudLoop;
 
-    public GameState(Game game, PlayerAi trainedPlayerAi){
+    public GameState(Game game, PlayerAi trainedPlayerAi, boolean freeplay){
         super(game);
         
         carStartingX = 15;
         carStartingY = (Launcher.height/2 + 20) - 9;
-        player = new Player(game, carStartingX, carStartingY);
+        player = new Player(game, carStartingX, carStartingY, freeplay);
         
         trafficLightStartingX = Launcher.width/2;
         trafficLightStartingY = Launcher.height/2;

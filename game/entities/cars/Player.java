@@ -45,13 +45,16 @@ public class Player extends Cars {
     
     private double[][] playerCorners;
     private double[][] cornerHitboxes;
+    private boolean freeplay;
 
     // ai inputs
     boolean go, stop, left, right;
 
-    public Player(Game game, float x, float y) {
+    public Player(Game game, float x, float y, boolean freeplay) {
         super(x, y);
         this.game = game;
+        this.freeplay = freeplay;
+        
         velocity = 0;
         acceleration = 0.3;
         deceleration = 0.4;
@@ -78,173 +81,179 @@ public class Player extends Cars {
     }
 
     // @Override
-    // public void tick() {
+    public void tickUser() {
         
-    //     // physics -----------------------
-    //     // if not turning==
-    //     if(!game.getKeyManager().right && !game.getKeyManager().left){
-    //         // yTemp = y;
-    //         // xTemp = x;
-    //         // movement.angle = 0;
-    //     }
+        // physics -----------------------
+        // if not turning==
+        if(!game.getKeyManager().right && !game.getKeyManager().left){
+            // yTemp = y;
+            // xTemp = x;
+            // movement.angle = 0;
+        }
 
-    //     // if accelerating==
-    //     if(game.getKeyManager().accelerate){
-    //         //if not turning
-    //         if(!game.getKeyManager().right && !game.getKeyManager().left){
-    //             movement.accelerate();
-    //         }
-    //         //if turning
-    //         else if(game.getKeyManager().right || game.getKeyManager().left){
-    //             if(game.getKeyManager().left && !game.getKeyManager().right){
-    //                 movement.accelerate();
-    //                 movement.calcTurnLeft();
-    //                 y = (float) (yTemp + movement.actualRiseY);
-    //                 x = (float) (xTemp + movement.actualRiseX);
-    //                 yTemp = y;
-    //                 xTemp = x;
+        // if accelerating==
+        if(game.getKeyManager().accelerate){
+            //if not turning
+            if(!game.getKeyManager().right && !game.getKeyManager().left){
+                movement.accelerate();
+            }
+            //if turning
+            else if(game.getKeyManager().right || game.getKeyManager().left){
+                if(game.getKeyManager().left && !game.getKeyManager().right){
+                    movement.accelerate();
+                    movement.calcTurnLeft();
+                    y = (float) (yTemp + movement.actualRiseY);
+                    x = (float) (xTemp + movement.actualRiseX);
+                    yTemp = y;
+                    xTemp = x;
 
-    //             }
-    //             if(!game.getKeyManager().left && game.getKeyManager().right){
-    //                 movement.accelerate();
-    //                 movement.calcTurnRight();
-    //                 y = (float) (yTemp + movement.actualRiseY);
-    //                 x = (float) (xTemp + movement.actualRiseX);
-    //                 yTemp = y;
-    //                 xTemp = x;
+                }
+                if(!game.getKeyManager().left && game.getKeyManager().right){
+                    movement.accelerate();
+                    movement.calcTurnRight();
+                    y = (float) (yTemp + movement.actualRiseY);
+                    x = (float) (xTemp + movement.actualRiseX);
+                    yTemp = y;
+                    xTemp = x;
 
-    //             }
-    //         }
-    //     }
+                }
+            }
+        }
 
-    //     // if deccelerating==
-    //     if(game.getKeyManager().decelerate){
-    //         //if not turning
-    //         if(!game.getKeyManager().right && !game.getKeyManager().left){
-    //             movement.decelerate();
-    //         }
-    //         //if turning
-    //         else if(game.getKeyManager().right || game.getKeyManager().left){
-    //             if(game.getKeyManager().left && !game.getKeyManager().right){
-    //                 movement.decelerate();
-    //                 if(movement.velocity > 0){
-    //                     movement.calcTurnLeft();
-    //                     y = (float) (yTemp + movement.actualRiseY);
-    //                     x = (float) (xTemp + movement.actualRiseX);
-    //                     yTemp = y;
-    //                     xTemp = x;
+        // if deccelerating==
+        if(game.getKeyManager().decelerate){
+            //if not turning
+            if(!game.getKeyManager().right && !game.getKeyManager().left){
+                movement.decelerate();
+            }
+            //if turning
+            else if(game.getKeyManager().right || game.getKeyManager().left){
+                if(game.getKeyManager().left && !game.getKeyManager().right){
+                    movement.decelerate();
+                    if(movement.velocity > 0){
+                        movement.calcTurnLeft();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
 
-    //                 }
-    //             }
-    //             if(!game.getKeyManager().left && game.getKeyManager().right){
-    //                 movement.decelerate();
-    //                 if(movement.velocity > 0){
-    //                     movement.calcTurnRight();
-    //                     y = (float) (yTemp + movement.actualRiseY);
-    //                     x = (float) (xTemp + movement.actualRiseX);
-    //                     yTemp = y;
-    //                     xTemp = x;
+                    }
+                }
+                if(!game.getKeyManager().left && game.getKeyManager().right){
+                    movement.decelerate();
+                    if(movement.velocity > 0){
+                        movement.calcTurnRight();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
     
-    //                 }
-    //             }
-    //         }
-    //     }
+                    }
+                }
+            }
+        }
 
-    //     // if gliding==
-    //     if(!game.getKeyManager().decelerate && !game.getKeyManager().accelerate){
-    //         //if not turning
-    //         if(!game.getKeyManager().right && !game.getKeyManager().left){
-    //             movement.slowDown();
-    //         }
-    //         //if turning
-    //         else if(game.getKeyManager().right || game.getKeyManager().left){
-    //             if(game.getKeyManager().left && !game.getKeyManager().right){
-    //                 movement.turnSlowDown();
-    //                 if(movement.velocity > 0){
-    //                     movement.calcTurnLeft();
-    //                     y = (float) (yTemp + movement.actualRiseY);
-    //                     x = (float) (xTemp + movement.actualRiseX);
-    //                     yTemp = y;
-    //                     xTemp = x;
+        // if gliding==
+        if(!game.getKeyManager().decelerate && !game.getKeyManager().accelerate){
+            //if not turning
+            if(!game.getKeyManager().right && !game.getKeyManager().left){
+                movement.slowDown();
+            }
+            //if turning
+            else if(game.getKeyManager().right || game.getKeyManager().left){
+                if(game.getKeyManager().left && !game.getKeyManager().right){
+                    movement.turnSlowDown();
+                    if(movement.velocity > 0){
+                        movement.calcTurnLeft();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
 
-    //                 }
-    //             }
-    //             if(!game.getKeyManager().left && game.getKeyManager().right){
-    //                 movement.turnSlowDown();
-    //                 if(movement.velocity > 0){
-    //                     movement.calcTurnRight();
-    //                     y = (float) (yTemp + movement.actualRiseY);
-    //                     x = (float) (xTemp + movement.actualRiseX);
-    //                     yTemp = y;
-    //                     xTemp = x;
+                    }
+                }
+                if(!game.getKeyManager().left && game.getKeyManager().right){
+                    movement.turnSlowDown();
+                    if(movement.velocity > 0){
+                        movement.calcTurnRight();
+                        y = (float) (yTemp + movement.actualRiseY);
+                        x = (float) (xTemp + movement.actualRiseX);
+                        yTemp = y;
+                        xTemp = x;
     
 
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     // if not turning 
-    //     if(!game.getKeyManager().left && !game.getKeyManager().right){
-    //         movement.calcStraight();
-    //         y += movement.riseYLinear;
-    //         x += movement.riseXLinear;
-    //         yTemp = y;
-    //         xTemp = x;
-    //     }
+                    }
+                }
+            }
+        }
+        // if not turning 
+        if(!game.getKeyManager().left && !game.getKeyManager().right){
+            movement.calcStraight();
+            y += movement.riseYLinear;
+            x += movement.riseXLinear;
+            yTemp = y;
+            xTemp = x;
+        }
 
-    //     // if trying to turn both ways just go straight
-    //     if(game.getKeyManager().left && game.getKeyManager().right){
-    //         movement.calcStraight();
-    //         y += movement.riseYLinear;
-    //         x += movement.riseXLinear;
-    //         yTemp = y;
-    //         xTemp = x;
-    //     }
+        // if trying to turn both ways just go straight
+        if(game.getKeyManager().left && game.getKeyManager().right){
+            movement.calcStraight();
+            y += movement.riseYLinear;
+            x += movement.riseXLinear;
+            yTemp = y;
+            xTemp = x;
+        }
 
-    //     // drawings only --------
-    //     // base figure, straight and no brake
-    //     car = Assets.carStraightNo;
+        // drawings only --------
+        // base figure, straight and no brake
+        car = Assets.carStraightNo;
 
-    //     // braking
-    //     if(game.getKeyManager().decelerate){
-    //         car = Assets.carStraightBrake;
-    //         movement.decelerate();
-    //     }
-    //     // turning without braking
-    //     if(game.getKeyManager().left && !game.getKeyManager().right && !game.getKeyManager().decelerate){
-    //         car = Assets.carLeftNo;
-    //     }
-    //     if(game.getKeyManager().right && !game.getKeyManager().left && !game.getKeyManager().decelerate){
-    //         car = Assets.carRightNo;
-    //     }
-    //     // turning with braking
-    //     if(game.getKeyManager().left && !game.getKeyManager().right && game.getKeyManager().decelerate){
-    //         car = Assets.carLeftBrake;
-    //     }
-    //     if(game.getKeyManager().right && !game.getKeyManager().left && game.getKeyManager().decelerate){
-    //         car = Assets.carRightBrake;
-    //     }
-    //     if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().decelerate){
-    //         car = Assets.carStraightBrake;
-    //     }
-    //     if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().accelerate){
-    //         car = Assets.carStraightNo;
-    //     }
+        // braking
+        if(game.getKeyManager().decelerate){
+            car = Assets.carStraightBrake;
+            movement.decelerate();
+        }
+        // turning without braking
+        if(game.getKeyManager().left && !game.getKeyManager().right && !game.getKeyManager().decelerate){
+            car = Assets.carLeftNo;
+        }
+        if(game.getKeyManager().right && !game.getKeyManager().left && !game.getKeyManager().decelerate){
+            car = Assets.carRightNo;
+        }
+        // turning with braking
+        if(game.getKeyManager().left && !game.getKeyManager().right && game.getKeyManager().decelerate){
+            car = Assets.carLeftBrake;
+        }
+        if(game.getKeyManager().right && !game.getKeyManager().left && game.getKeyManager().decelerate){
+            car = Assets.carRightBrake;
+        }
+        if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().decelerate){
+            car = Assets.carStraightBrake;
+        }
+        if(game.getKeyManager().left && game.getKeyManager().right && game.getKeyManager().accelerate){
+            car = Assets.carStraightNo;
+        }
 
-    //     // rotates the image
-    //     car = Assets.rotate(car, -movement.angleLeft);
+        // rotates the image
+        car = Assets.rotate(car, -movement.angleLeft);
         
-    //     collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
-    // }
+        collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
+    }
 
     public void tick(){
-        tickAi();
+        if(!freeplay){
+            tickAi();
+    
+            // resetting ai inputs
+            go = false;
+            stop = false;
+            left = false;
+            right = false;
+        }
 
-        // resetting ai inputs
-        go = false;
-        stop = false;
-        left = false;
-        right = false;
+        else if(freeplay){
+            tickUser();
+        }
     }
 
     public void tickAi() {
