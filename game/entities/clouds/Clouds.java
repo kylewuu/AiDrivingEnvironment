@@ -34,6 +34,11 @@ public class Clouds{
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(ac);
         g.drawImage(cloud, x, y, null);
+
+        alpha = (float) 1.0;
+        ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        g2d = (Graphics2D) g;
+        g2d.setComposite(ac);
     }
 
 

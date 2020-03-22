@@ -8,6 +8,7 @@ public class KeyManager implements KeyListener {
     private boolean[] keys;
     public boolean accelerate, decelerate, left, right;
     public boolean restart;
+    public boolean menu;
 
     public KeyManager(){
         keys = new boolean[256];
@@ -19,6 +20,7 @@ public class KeyManager implements KeyListener {
         left = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
         restart = keys[KeyEvent.VK_R];
+        menu = keys[KeyEvent.VK_ESCAPE];
 
     }
 

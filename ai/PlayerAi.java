@@ -45,7 +45,7 @@ public class PlayerAi{
     private Train turnAi;
 
     // empty constructor
-    public PlayerAi(double[][] thresholds){
+    public PlayerAi(double[][] thresholds, int iterations){
         sideTop = thresholds[0][0]/Launcher.height;
         sideRight = thresholds[0][1]/Launcher.width;
         sideBottom = thresholds[0][2]/Launcher.height;
@@ -75,12 +75,12 @@ public class PlayerAi{
         randomizeMiddleTurn();
 
         // System.out.println("STARTED\n\n\n\n\n\n\n\n\n\n\n");
-        environmentAi.train(environmentTrainData, environmentTrainResult, 2, 4, 3, 1000);
-        stopLightSideAi.train(stopLightSideTrainData, stopLightSideTrainResult, 2, 3, 1, 1000);
+        environmentAi.train(environmentTrainData, environmentTrainResult, 2, 4, 3, iterations);
+        stopLightSideAi.train(stopLightSideTrainData, stopLightSideTrainResult, 2, 3, 1, iterations);
         // turnLineSideAi.train(turnLineSideTrainData, turnLineSideTrainResult, 2, 3, 2, 1000);
-        turnAi.train(turnMiddleTrainData, turnMiddleTrainResult, 4, 6, 2, 1000);
-        middleLineAi.train(stopMiddleTrainData, stopMiddleTrainResult, 4, 5, 1, 1000);
-        turnAi.train(turnMiddleTrainData, turnMiddleTrainResult, 4, 6, 2, 1000);
+        turnAi.train(turnMiddleTrainData, turnMiddleTrainResult, 4, 6, 2, iterations);
+        middleLineAi.train(stopMiddleTrainData, stopMiddleTrainResult, 4, 5, 1, iterations);
+        turnAi.train(turnMiddleTrainData, turnMiddleTrainResult, 4, 6, 2, iterations);
     }
     private void randomizeEnvironment(){
         // Random ran = new Random();
@@ -353,7 +353,7 @@ public class PlayerAi{
 
     public void middleStateTurnTick(Player player){
         double trafficLine = 769; // middle of the upper lane
-        double turnVelocityCalculator = 1.3;
+        double turnVelocityCalculator = 1.0;
 
         int rightLane = 0;
         int rightAngle = 0;

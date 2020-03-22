@@ -63,8 +63,8 @@ public class Game implements Runnable {
 
     }
 
-    public void initGameState(){
-        initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}});
+    public void initGameState(int iterations){
+        initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}}, iterations);
         gameState = new GameState(this, initTraining);
         running = true;
     }
@@ -101,10 +101,19 @@ public class Game implements Runnable {
 
     public void run() {
         init();
+
+        if(!running){
+            gameController = new GameController();
+            gameController.init();
+        }
         
         // menu state
         while(!running){
-            tick();
+            if(gameController.running() >= 1){
+                tick();
+                render();
+                gameController.delta --;
+            }
         }
 
         // don't start counting the time yet so it doens't do any weird speeding up thing
@@ -127,7 +136,7 @@ public class Game implements Runnable {
                 State.setState(gameState);
             }
 
-            if(keyManager.right){
+            if(keyManager.menu){
                 mouseManager.leftPressedSetFalse();
                 menuState = new MenuState(this);
                 State.setState(menuState);
