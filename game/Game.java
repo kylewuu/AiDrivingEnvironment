@@ -32,6 +32,7 @@ public class Game implements Runnable {
     public State menuState;
     private PlayerAi initTraining;
     private boolean freeplay;
+    private boolean lock;
     
     // input
     private KeyManager keyManager;
@@ -66,9 +67,10 @@ public class Game implements Runnable {
 
     }
 
-    public void initGameState(int iterations, boolean freeplay){
+    public void initGameState(int iterations, boolean freeplay, boolean lock){
         this.iterations = iterations;
         this.freeplay = freeplay;
+        this.lock = lock;
         if(!freeplay) initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}}, iterations);
         else if(freeplay) initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}}, 0);
         gameState = new GameState(this, initTraining, freeplay);
@@ -192,7 +194,7 @@ public class Game implements Runnable {
         menuState = new MenuState(this);
         State.setState(menuState);
         iterations += 5;
-        initGameState(iterations, false);
+        initGameState(iterations, false, false);
         State.setState(gameState);
         System.out.println(iterations);
     }
@@ -200,5 +202,9 @@ public class Game implements Runnable {
     public void restartFreePlay(){
         gameState = new GameState(this, initTraining, freeplay);
         State.setState(gameState);
+    }
+
+    public boolean lockGetter(){
+        return lock;
     }
 }

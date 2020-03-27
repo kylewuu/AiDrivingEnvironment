@@ -373,7 +373,7 @@ public class PlayerAi{
         if(player.angleRightGetter()%360 > 270){
             leftAngle = 1;
         }
-        if(player.angleRightGetter()%360 > 90 && player.angleRightGetter() < 220 + player.velocityGetter()/turnVelocityCalculator){
+        if(player.angleRightGetter()%360 > 90 && player.angleRightGetter() < 220 + player.velocityGetter()/turnVelocityCalculator && player.xGetter() >= middleLeft + (120/player.velocityGetter()==0?1:60/player.velocityGetter())){
             rightLane = 1;
             leftLane = 0;
         }
