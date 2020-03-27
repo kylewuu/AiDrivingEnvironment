@@ -204,7 +204,7 @@ public class PlayerAi{
         };
             
         // left, right
-        turnMiddleTrainResult= new double[][] {
+        turnMiddleTrainResult = new double[][] {
             {0,1},
             {0,1},
             {0,0},
@@ -353,7 +353,7 @@ public class PlayerAi{
 
     public void middleStateTurnTick(Player player){
         double trafficLine = 769; // middle of the upper lane
-        double turnVelocityCalculator = 1.0;
+        double turnVelocityCalculator = 1.1;
 
         int rightLane = 0;
         int rightAngle = 0;
@@ -385,7 +385,7 @@ public class PlayerAi{
     }
 
     public void topStateTurnTick(Player player){
-        double trafficLine = 769; // middle of the upper lane
+        double trafficLine = 765; // middle of the upper lane
 
         int rightLane = 0;
         int rightAngle = 0;
@@ -399,10 +399,10 @@ public class PlayerAi{
             leftLane = 1;
         }
 
-        if(player.angleRightGetter()%360 < 270 ){
+        if(Math.round(player.angleRightGetter()%360) < 270 ){
             rightAngle = 1;
         }
-        if(player.angleRightGetter()%360 > 270){
+        if(Math.round(player.angleRightGetter()%360) > 270){
             leftAngle = 1;
         }
         player.accelerate(); // go since in top side, no need to stop

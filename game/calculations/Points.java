@@ -62,6 +62,9 @@ public class Points {
         else if(x < 0){
             return -5;
         }
+        else if(x>Launcher.width){
+            return -100;
+        }
         return 0;
     }
 

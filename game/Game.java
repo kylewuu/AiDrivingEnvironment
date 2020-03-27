@@ -37,6 +37,8 @@ public class Game implements Runnable {
     private KeyManager keyManager;
     private MouseManager mouseManager;
 
+    private int iterations;
+
     public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
@@ -65,6 +67,7 @@ public class Game implements Runnable {
     }
 
     public void initGameState(int iterations, boolean freeplay){
+        this.iterations = iterations;
         this.freeplay = freeplay;
         if(!freeplay) initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}}, iterations);
         else if(freeplay) initTraining = new PlayerAi(new double[][] {{400, 614, 455, 0}, {292, 855, 504, 614}, {0, 802, 292, 749}}, 0);
@@ -134,7 +137,6 @@ public class Game implements Runnable {
 
             // restart the game not from menu
             if(keyManager.restart){
-                System.out.println("Restart");
                 gameState = new GameState(this, initTraining, freeplay);
                 State.setState(gameState);
             }
@@ -151,6 +153,7 @@ public class Game implements Runnable {
         stop();
     }
 
+    // getters 
     public KeyManager getKeyManager(){
         return keyManager;
     }
@@ -164,7 +167,14 @@ public class Game implements Runnable {
         // running = true;
         thread = new Thread(this);
         thread.start();
-      
+    }
+
+    public boolean getFreePlay(){
+        return freeplay;
+    }
+
+    public int iterationsGetter(){
+        return iterations;
     }
 
     public synchronized void stop() {
@@ -176,5 +186,19 @@ public class Game implements Runnable {
             e.printStackTrace();
         }
 
+    }
+
+    public void restartAndIterate(){
+        menuState = new MenuState(this);
+        State.setState(menuState);
+        iterations += 5;
+        initGameState(iterations, false);
+        State.setState(gameState);
+        System.out.println(iterations);
+    }
+
+    public void restartFreePlay(){
+        gameState = new GameState(this, initTraining, freeplay);
+        State.setState(gameState);
     }
 }

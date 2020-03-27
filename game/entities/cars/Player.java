@@ -46,6 +46,8 @@ public class Player extends Cars {
     private double[][] playerCorners;
     private double[][] cornerHitboxes;
     private boolean freeplay;
+    private int pointsEndStall, pointsEndStallMax;
+    private int boundEndStall, boundEndStallMax;
 
     // ai inputs
     boolean go, stop, left, right;
@@ -78,6 +80,12 @@ public class Player extends Cars {
         stop = false;
         left = false;
         right = false;
+
+        pointsEndStall = 0;
+        pointsEndStallMax = 200; // how long to pause for after you reach zero points
+
+        boundEndStall = 0;
+        boundEndStall = 200;
     }
 
     // @Override
@@ -254,6 +262,24 @@ public class Player extends Cars {
         else if(freeplay){
             tickUser();
         }
+
+        // if less than 0 points then restart the game
+        if(points < 0){
+            if(pointsEndStall > pointsEndStallMax){
+                if(game.getFreePlay()) game.restartFreePlay();
+                else if(!game.getFreePlay()) game.restartAndIterate();
+            }
+            pointsEndStall++;
+        }
+
+        if(y < 0 && x > 614 ){
+            if(boundEndStall > boundEndStallMax){
+                if(game.getFreePlay()) game.restartFreePlay();
+                else if(!game.getFreePlay()) game.restartAndIterate();
+            }
+            boundEndStall++;
+        }
+        else boundEndStall = 0;
     }
 
     public void tickAi() {
@@ -480,7 +506,6 @@ public class Player extends Cars {
             }
 
             if(tempPoints != points){
-                System.out.println(points);
                 break;
             }
             
@@ -509,6 +534,31 @@ public class Player extends Cars {
         if(points < 0 ){
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
         }
+    }
+
+    public void iterationsRender(Graphics g){
+        int digit = 0;
+        int temp = game.iterationsGetter();
+        // System.out.println("Starting points -------- "+points);
+        int y = Launcher.height - 100;
+        int xStarting = Launcher.width - 100;
+        int x = xStarting;
+        float alpha = (float) 1.0;
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setComposite(ac);
+
+        while(temp > 0){
+            digit = temp%10;
+            // System.out.println("points digit: " + digit);
+            temp = temp/10;
+            g.drawImage(Assets.numbersArray[digit], x, y, null);
+            x -= 20;
+        }
+        if(points < 0 ){
+            g.drawImage(Assets.numbersArray[0], xStarting, y, null);
+        }
+        g.fillRect(x - 150, y, 100, 25);
     }
 
     // getters
