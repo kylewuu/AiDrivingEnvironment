@@ -191,12 +191,13 @@ public class Game implements Runnable {
     }
 
     public void restartAndIterate(){
+        // System.out.println(iterations);
         menuState = new MenuState(this);
         State.setState(menuState);
         iterations += 5;
         initGameState(iterations, false, false);
         State.setState(gameState);
-        System.out.println(iterations);
+        
     }
 
     public void restartFreePlay(){

@@ -3,6 +3,7 @@ package driver.states;
 import java.awt.Graphics;
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
+import java.awt.Color;
 
 import driver.game.Game;
 import driver.game.Launcher;
@@ -89,7 +90,7 @@ public class MenuState extends State {
                 State.setState(game.gameState);
             }
 
-            if(increaseDetection()) iterationsChosen += iterationsChooseJump;
+            if(increaseDetection() && iterationsChosen<9995) iterationsChosen += iterationsChooseJump;
             if(decreaseDetection() && iterationsChosen>= iterationsChooseJump) iterationsChosen -= iterationsChooseJump;
             if(freeplayDetection()){
                 freeplay = true;
@@ -112,21 +113,24 @@ public class MenuState extends State {
         Environment.draw(g);
         trafficLight.render(g);
         cloudLoop.render(g);
-        g.fillRect(startX, startY, startWidth, startHeight); // start button
-        g.fillRect(decreaseX, decreaseY, increaseDecreaseWidth, increaseDecreaseHeight); // decrease button
-        g.fillRect(displayX, displayY, displayWidth, displayHeight); // display button
-        g.fillRect(increaseX, increaseY, increaseDecreaseWidth, increaseDecreaseHeight); // increase button
-        g.fillRect(freeX, freeY, freeWidth, freeHeight);
-        g.fillRect(lockX, lockY, lockWidth, lockHeight);
+        renderMenuLights(g);
+        g.drawImage(Assets.start, startX, startY, null); // start button
+        g.drawImage(Assets.decrement, decreaseX, decreaseY, null); // decrease button
+        g.drawImage(Assets.display, displayX, displayY, null); // display button
+        g.drawImage(Assets.increment, increaseX, increaseY, null); // increase button
+        g.drawImage(Assets.freePlay, freeX, freeY, null);
+        if(lock) g.drawImage(Assets.checked, lockX, lockY, null);
+        else if(!lock) g.drawImage(Assets.unchecked, lockX, lockY, null);
         displayIteration(g); // rendering points
     }
 
     public void displayIteration(Graphics g){
+        int digitSpacing = 30;
         int digit = 0;
         int temp = iterationsChosen;
         // System.out.println("Starting points -------- "+points);
         int y = displayY + 5;
-        int xStarting = displayX + displayWidth - 10;
+        int xStarting = displayX + displayWidth - digitSpacing - 10;
         int x = xStarting;
         float alpha = (float) 1.0;
         AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
@@ -135,10 +139,10 @@ public class MenuState extends State {
 
         while(temp > 0){
             digit = temp%10;
-            // System.out.println("points digit: " + digit);
+            if(digit==1) x+=8;
             temp = temp/10;
             g.drawImage(Assets.numbersArray[digit], x, y, null);
-            x -= 20;
+            x -= digitSpacing;
         }
         if(iterationsChosen <= 0 ){
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
@@ -195,5 +199,21 @@ public class MenuState extends State {
 
     public boolean lockGetter(){
         return lock;
+    }
+
+    public void renderMenuLights(Graphics g){
+        // float alpha = (float) 0.5;
+        // AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        // Graphics2D g2d = (Graphics2D) g;
+        // g2d.setComposite(ac);
+        int alpha = 127; // out of 256
+        Color menuBackground = new Color(0, 0, 0, alpha);
+        g.setColor(menuBackground);
+        g.fillRect(0, 0, Launcher.width, Launcher.height);
+
+        // alpha = (float) 1.0;
+        // ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        // g2d = (Graphics2D) g;
+        // g2d.setComposite(ac);
     }
 }

@@ -21,6 +21,7 @@ public class Assets{
     public static BufferedImage environment;
     public static BufferedImage cloud, cloud1, cloud2, cloud3;
     public static BufferedImage n0,n1,n2,n3,n4,n5,n6,n7,n8,n9;
+    public static BufferedImage start, freePlay, display, increment, decrement,checked,unchecked;
     
     public static int trafficLightWidth,carLength, carWidth;
 
@@ -126,6 +127,15 @@ public class Assets{
             n8,
             n9
         };
+
+        start = ImageLoader.loadImage("/driver/res/textures/start.png");
+        freePlay = ImageLoader.loadImage("/driver/res/textures/freePlay.png");
+        display = ImageLoader.loadImage("/driver/res/textures/display.png");
+        increment = ImageLoader.loadImage("/driver/res/textures/increment.png");
+        decrement = ImageLoader.loadImage("/driver/res/textures/decrement.png");
+        checked = ImageLoader.loadImage("/driver/res/textures/checked.png");
+        unchecked = ImageLoader.loadImage("/driver/res/textures/unchecked.png");
+
         
     }
 

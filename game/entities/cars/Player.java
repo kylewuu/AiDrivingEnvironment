@@ -266,16 +266,20 @@ public class Player extends Cars {
         // if less than 0 points then restart the game
         if(points < 0){
             if(pointsEndStall > pointsEndStallMax){
-                if(game.getFreePlay()) game.restartFreePlay();
-                else if(!game.getFreePlay()) game.restartAndIterate();
+                if(game.getFreePlay() && game.lockGetter()) game.restartFreePlay();
+                else if(game.getFreePlay() && !game.lockGetter()) game.restartFreePlay();
+                else if(!game.getFreePlay() && game.lockGetter()) game.restartFreePlay();
+                else if(!game.getFreePlay() && !game.lockGetter()) game.restartAndIterate();
             }
             pointsEndStall++;
         }
 
         if(y < 0 && x > 614 ){
             if(boundEndStall > boundEndStallMax){
-                if(game.getFreePlay()) game.restartFreePlay();
-                else if(!game.getFreePlay()) game.restartAndIterate();
+                if(game.getFreePlay() && game.lockGetter()) game.restartFreePlay();
+                else if(game.getFreePlay() && !game.lockGetter()) game.restartFreePlay();
+                else if(!game.getFreePlay() && game.lockGetter()) game.restartFreePlay();
+                else if(!game.getFreePlay() && !game.lockGetter()) game.restartAndIterate();
             }
             boundEndStall++;
         }
@@ -453,11 +457,9 @@ public class Player extends Cars {
 
     }
 
-    
 
     public void collisionEnvironment( double[][] corners){
 
-        
         this.playerCorners = corners;
         // points loss for taking too long
         if(pointsCounter >= pointsCounterThreshold){
@@ -513,6 +515,7 @@ public class Player extends Cars {
     }
 
     public void pointsRender(Graphics g){
+        int digitSpacing = 30;
         int digit = 0;
         int temp = points;
         // System.out.println("Starting points -------- "+points);
@@ -526,10 +529,10 @@ public class Player extends Cars {
 
         while(temp > 0){
             digit = temp%10;
-            // System.out.println("points digit: " + digit);
+            if(digit==1) x+=8;
             temp = temp/10;
             g.drawImage(Assets.numbersArray[digit], x, y, null);
-            x -= 20;
+            x -= digitSpacing;
         }
         if(points < 0 ){
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
@@ -537,8 +540,10 @@ public class Player extends Cars {
     }
 
     public void iterationsRender(Graphics g){
+        int digitSpacing = 30;
         int digit = 0;
         int temp = game.iterationsGetter();
+        // System.out.println("iteratoins: " + temp);
         // System.out.println("Starting points -------- "+points);
         int y = Launcher.height - 100;
         int xStarting = Launcher.width - 100;
@@ -550,12 +555,12 @@ public class Player extends Cars {
 
         while(temp > 0){
             digit = temp%10;
-            // System.out.println("points digit: " + digit);
+            if(digit==1) x+=8;
             temp = temp/10;
             g.drawImage(Assets.numbersArray[digit], x, y, null);
-            x -= 20;
+            x -= digitSpacing;
         }
-        if(points < 0 ){
+        if(game.iterationsGetter() <= 0 ){
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
         }
         g.fillRect(x - 150, y, 100, 25);
