@@ -49,6 +49,8 @@ public class Player extends Cars {
     private int pointsEndStall, pointsEndStallMax;
     private int boundEndStall, boundEndStallMax;
 
+    private boolean endLock; // for keeping the points at what it is
+
     // ai inputs
     boolean go, stop, left, right;
 
@@ -85,7 +87,9 @@ public class Player extends Cars {
         pointsEndStallMax = 200; // how long to pause for after you reach zero points
 
         boundEndStall = 0;
-        boundEndStall = 200;
+        boundEndStallMax = 200;
+
+        endLock = false;
     }
 
     // @Override
@@ -108,6 +112,7 @@ public class Player extends Cars {
             //if turning
             else if(game.getKeyManager().right || game.getKeyManager().left){
                 if(game.getKeyManager().left && !game.getKeyManager().right){
+                    // System.out.println("left acc-- velocity: " + movement.velocity);
                     movement.accelerate();
                     movement.calcTurnLeft();
                     y = (float) (yTemp + movement.actualRiseY);
@@ -117,6 +122,7 @@ public class Player extends Cars {
 
                 }
                 if(!game.getKeyManager().left && game.getKeyManager().right){
+                    // System.out.println("right accc-- velocity: " + movement.velocity);
                     movement.accelerate();
                     movement.calcTurnRight();
                     y = (float) (yTemp + movement.actualRiseY);
@@ -139,6 +145,7 @@ public class Player extends Cars {
                 if(game.getKeyManager().left && !game.getKeyManager().right){
                     movement.decelerate();
                     if(movement.velocity > 0){
+                        // System.out.println("left dec");
                         movement.calcTurnLeft();
                         y = (float) (yTemp + movement.actualRiseY);
                         x = (float) (xTemp + movement.actualRiseX);
@@ -150,6 +157,7 @@ public class Player extends Cars {
                 if(!game.getKeyManager().left && game.getKeyManager().right){
                     movement.decelerate();
                     if(movement.velocity > 0){
+                        // System.out.println("right dec");
                         movement.calcTurnRight();
                         y = (float) (yTemp + movement.actualRiseY);
                         x = (float) (xTemp + movement.actualRiseX);
@@ -172,6 +180,7 @@ public class Player extends Cars {
                 if(game.getKeyManager().left && !game.getKeyManager().right){
                     movement.turnSlowDown();
                     if(movement.velocity > 0){
+                        // System.out.println("left glide");
                         movement.calcTurnLeft();
                         y = (float) (yTemp + movement.actualRiseY);
                         x = (float) (xTemp + movement.actualRiseX);
@@ -183,6 +192,7 @@ public class Player extends Cars {
                 if(!game.getKeyManager().left && game.getKeyManager().right){
                     movement.turnSlowDown();
                     if(movement.velocity > 0){
+                        // System.out.println("right glide");
                         movement.calcTurnRight();
                         y = (float) (yTemp + movement.actualRiseY);
                         x = (float) (xTemp + movement.actualRiseX);
@@ -196,6 +206,7 @@ public class Player extends Cars {
         }
         // if not turning 
         if(!game.getKeyManager().left && !game.getKeyManager().right){
+            // System.out.println("straight nothing");
             movement.calcStraight();
             y += movement.riseYLinear;
             x += movement.riseXLinear;
@@ -205,6 +216,7 @@ public class Player extends Cars {
 
         // if trying to turn both ways just go straight
         if(game.getKeyManager().left && game.getKeyManager().right){
+            // System.out.println("both rn");
             movement.calcStraight();
             y += movement.riseYLinear;
             x += movement.riseXLinear;
@@ -218,6 +230,7 @@ public class Player extends Cars {
 
         // braking
         if(game.getKeyManager().decelerate){
+            // System.out.println("brake");
             car = Assets.carStraightBrake;
             movement.decelerate();
         }
@@ -245,7 +258,7 @@ public class Player extends Cars {
         // rotates the image
         car = Assets.rotate(car, -movement.angleLeft);
         
-        collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
+        if(!endLock) collisionEnvironment(pointsClass.renderHitbox(movement, x, y));
     }
 
     public void tick(){
@@ -275,6 +288,7 @@ public class Player extends Cars {
         }
 
         if(y < 0 && x > 614 ){
+            endLock = true;
             if(boundEndStall > boundEndStallMax){
                 if(game.getFreePlay() && game.lockGetter()) game.restartFreePlay();
                 else if(game.getFreePlay() && !game.lockGetter()) game.restartFreePlay();
@@ -290,7 +304,7 @@ public class Player extends Cars {
         // System.out.println(movement.velocity);
         // physics -----------------------
         // if not turning==
-        if(!game.getKeyManager().right && !game.getKeyManager().left){
+        if(!right && !left){
             // yTemp = y;
             // xTemp = x;
             // movement.angle = 0;
@@ -429,7 +443,7 @@ public class Player extends Cars {
         if(left && !right && stop){
             car = Assets.carLeftBrake;
         }
-        if(game.getKeyManager().right && !left && stop){
+        if(right && !left && stop){
             car = Assets.carRightBrake;
         }
         if(left && right && stop){
@@ -442,7 +456,7 @@ public class Player extends Cars {
         // rotates the image
         car = Assets.rotate(car, -movement.angleLeft);
         cornerHitboxes = pointsClass.renderHitbox(movement, x, y);
-        collisionEnvironment(cornerHitboxes);
+        if(!endLock) collisionEnvironment(cornerHitboxes);
     }
 
     @Override
@@ -470,6 +484,7 @@ public class Player extends Cars {
         pointsCounter += 1 * pointsCounterMultiplier;
 
         // points handler for collision against environment
+        
         for( int i = 0; i< 4; i++){
             int tempPoints = points;
 
@@ -519,7 +534,7 @@ public class Player extends Cars {
         int digit = 0;
         int temp = points;
         // System.out.println("Starting points -------- "+points);
-        int y = Launcher.height - 50;
+        int y = Launcher.height - 52;
         int xStarting = Launcher.width - 100;
         int x = xStarting;
         float alpha = (float) 1.0;
@@ -527,6 +542,7 @@ public class Player extends Cars {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(ac);
 
+        g.drawImage(Assets.pointsDisplay, x - 265, y - 5, null);
         while(temp > 0){
             digit = temp%10;
             if(digit==1) x+=8;
@@ -545,14 +561,15 @@ public class Player extends Cars {
         int temp = game.iterationsGetter();
         // System.out.println("iteratoins: " + temp);
         // System.out.println("Starting points -------- "+points);
-        int y = Launcher.height - 100;
+        int y = Launcher.height - 110;
         int xStarting = Launcher.width - 100;
         int x = xStarting;
         float alpha = (float) 1.0;
         AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(ac);
-
+        
+        g.drawImage(Assets.iterationDisplay, x - 265, y - 5, null);
         while(temp > 0){
             digit = temp%10;
             if(digit==1) x+=8;
@@ -563,7 +580,7 @@ public class Player extends Cars {
         if(game.iterationsGetter() <= 0 ){
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
         }
-        g.fillRect(x - 150, y, 100, 25);
+        
     }
 
     // getters

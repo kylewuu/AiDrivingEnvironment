@@ -49,7 +49,7 @@ public class Movement{
     }
 
     public void turnAccelerate(){
-        velocity += acceleration/2;
+        velocity += (acceleration-(velocity/600))/2.6;
     }
 
     public void turnDecelerate(){
@@ -66,8 +66,8 @@ public class Movement{
         }
     }
     public void turnSlowDown(){
-        velocity -= deceleration/1.2;
-        if(velocity < deceleration/1.2){
+        velocity -= deceleration/1.5;
+        if(velocity < deceleration/1.5){
             velocity = 0;
         }
     }
@@ -82,8 +82,10 @@ public class Movement{
             r = rBase;
         }
 
-        if(velocity < 32) angleRate = velocity/22;
+        angleRate = velocity/22;
+        if(velocity > 45) angleRate = velocity/45;
 
+        System.out.println("angleRate: "+angleRate);
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleLeft));
         riseYTemp = r * Math.cos(Math.toRadians(angleLeft));
@@ -106,7 +108,10 @@ public class Movement{
             r = rBase;
         }
 
-        if(velocity < 32) angleRate = velocity/22;
+        angleRate = velocity/22;
+        if(velocity > 45) angleRate = velocity/45;
+
+        System.out.println("angleRate: "+angleRate);
 
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleRight));

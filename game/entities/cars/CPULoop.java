@@ -35,7 +35,7 @@ public class CPULoop{
         spacerCount = 0;
         carCountLimitter = 10;
         roomBetweenCars = 30;
-        spacerCountThreshold = roomBetweenCars ;
+        spacerCountThreshold = roomBetweenCars + 10;
         carMax = 8;
     }
 

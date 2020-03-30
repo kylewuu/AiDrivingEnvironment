@@ -50,7 +50,7 @@ public class CPU{
                 brake = Assets.rotate(brake, 180);
                 noBrake = Assets.rotate(noBrake, 180);
                 x = Launcher.width/2 - 40;
-                y = -200;
+                y = -240;
 
                 x1 = x + 23;
                 y1 = y + 41;
@@ -81,7 +81,7 @@ public class CPU{
                 brake = Assets.rotate(brake, 180);
                 noBrake = Assets.rotate(noBrake, 180);
                 x = Launcher.width/2 - 92;
-                y = -200;
+                y = -240;
 
                 x1 = x + 23;
                 y1 = y + 41;
