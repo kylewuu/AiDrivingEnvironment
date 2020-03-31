@@ -46,6 +46,7 @@ public class Game implements Runnable {
         this.title = title;
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+        iterations = 25;
     }
     
     private void init(){
@@ -62,7 +63,7 @@ public class Game implements Runnable {
         Assets.init();
 
         // gameState = new GameState(this);
-        menuState = new MenuState(this);
+        menuState = new MenuState(this, iterations);
         State.setState(menuState);
 
     }
@@ -145,7 +146,7 @@ public class Game implements Runnable {
 
             if(keyManager.menu){
                 mouseManager.leftPressedSetFalse();
-                menuState = new MenuState(this);
+                menuState = new MenuState(this, iterations);
                 State.setState(menuState);
 
             }
@@ -192,7 +193,7 @@ public class Game implements Runnable {
 
     public void restartAndIterate(){
         // System.out.println(iterations);
-        menuState = new MenuState(this);
+        menuState = new MenuState(this, iterations);
         State.setState(menuState);
         iterations += 5;
         initGameState(iterations, false, false);

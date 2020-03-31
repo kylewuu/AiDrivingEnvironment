@@ -349,7 +349,7 @@ public class Player extends Cars {
             else if(right || left){
                 if(left && !right){
                     movement.decelerate();
-                    if(movement.velocity > 0){
+                    if(movement.velocity > 0 && !go){
                         movement.calcTurnLeft();
                         y = (float) (yTemp + movement.actualRiseY);
                         x = (float) (xTemp + movement.actualRiseX);
@@ -360,7 +360,7 @@ public class Player extends Cars {
                 }
                 if(!left && right){
                     movement.decelerate();
-                    if(movement.velocity > 0){
+                    if(movement.velocity > 0 && !go){
                         movement.calcTurnRight();
                         y = (float) (yTemp + movement.actualRiseY);
                         x = (float) (xTemp + movement.actualRiseX);
@@ -498,8 +498,7 @@ public class Player extends Cars {
                 pointsCounterMultiplier += pointsCounterMultiplierMultiplier;
             }
             pointsCounter += 1 * pointsCounterMultiplier;
-     
-            // System.out.println("x: " + x + " y: " + y);
+    
 
 
             // for displaying the points

@@ -315,7 +315,7 @@ public class PlayerAi{
 
         // acceleration
         double trafficLine = middleLeft*Launcher.width + 25;
-        double safeDistanceToTurnStart = middleRight*Launcher.width + 100;
+        double safeDistanceToTurnStart = middleRight*Launcher.width + 250;
         double safeDistanceToTurnEnd = middleRight*Launcher.width - 100;
         int distanceFlag;
         int trafficFlag = 0;
@@ -374,7 +374,8 @@ public class PlayerAi{
             leftAngle = 1;
         }
         // for the end portion, the higher the number the further out they turn based on velocity
-        if(player.angleRightGetter()%360 > 90 && player.angleRightGetter() < 220 + player.velocityGetter()/turnVelocityCalculator && player.xGetter() >= middleLeft + (135/player.velocityGetter()<=1?1:60/player.velocityGetter())){
+        if(player.angleRightGetter()%360 > 90 && player.angleRightGetter() < 212 + player.velocityGetter()/turnVelocityCalculator && player.xGetter() >= middleLeft + (150/ (Math.cbrt(player.velocityGetter())<1?1:Math.cbrt(player.velocityGetter())))){
+            // System.out.println("hereeee: " + player.angleRightGetter());
             rightLane = 1;
             leftLane = 0;
         }

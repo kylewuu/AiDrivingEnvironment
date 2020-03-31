@@ -82,10 +82,8 @@ public class Movement{
             r = rBase;
         }
 
-        angleRate = velocity/22;
-        if(velocity > 45) angleRate = velocity/45;
-
-        System.out.println("angleRate: "+angleRate);
+        angleRate = velocity/22;        
+        if(angleRate > 1.2) angleRate = 1.2;
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleLeft));
         riseYTemp = r * Math.cos(Math.toRadians(angleLeft));
@@ -108,10 +106,9 @@ public class Movement{
             r = rBase;
         }
 
-        angleRate = velocity/22;
-        if(velocity > 45) angleRate = velocity/45;
+        angleRate = velocity/22;        
+        if(angleRate > 1.2) angleRate = 1.2;
 
-        System.out.println("angleRate: "+angleRate);
 
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleRight));

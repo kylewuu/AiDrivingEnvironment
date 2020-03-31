@@ -34,7 +34,7 @@ public class MenuState extends State {
     public static int  iterationsChosen;
     int iterationsChooseJump;
 
-    public MenuState(Game game) {
+    public MenuState(Game game, int iteration) {
         super(game);
         cloudLoop = new CloudsLoop();
         trafficLightStartingX = Launcher.width/2;
@@ -42,7 +42,7 @@ public class MenuState extends State {
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
 
         iterationsChooseJump = 5;
-        iterationsChosen = iterationsChooseJump; // default iterations to 100;
+        iterationsChosen = iteration; // default iterations to 100;
 
         freeplay = false;
         lock = false;
