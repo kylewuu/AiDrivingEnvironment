@@ -12,8 +12,6 @@ import driver.game.drawings.Environment;
 import driver.game.entities.clouds.CloudsLoop;
 import driver.game.entities.trafficLight.TrafficLights;
 
-
-
 public class MenuState extends State {
     private CloudsLoop cloudLoop;
     float trafficLightStartingX, trafficLightStartingY;
@@ -25,20 +23,20 @@ public class MenuState extends State {
     int increaseX, increaseY;
     int increaseDecreaseWidth, displayWidth, startWidth;
     int increaseDecreaseHeight, displayHeight, startHeight;
-    int freeX, freeY , freeWidth, freeHeight;
+    int freeX, freeY, freeWidth, freeHeight;
     int lockX, lockY, lockWidth, lockHeight;
 
     public boolean lock;
     public boolean freeplay;
 
-    public static int  iterationsChosen;
+    public static int iterationsChosen;
     int iterationsChooseJump;
 
     public MenuState(Game game, int iteration) {
         super(game);
         cloudLoop = new CloudsLoop();
-        trafficLightStartingX = Launcher.width/2;
-        trafficLightStartingY = Launcher.height/2;
+        trafficLightStartingX = Launcher.width / 2;
+        trafficLightStartingY = Launcher.height / 2;
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
 
         iterationsChooseJump = 5;
@@ -48,7 +46,7 @@ public class MenuState extends State {
         lock = false;
 
         int gapBetweenButton = 25;
-        startX = Launcher.width/2 - 150;
+        startX = Launcher.width / 2 - 150;
         startY = 350;
         startWidth = 300;
         startHeight = 50;
@@ -71,7 +69,8 @@ public class MenuState extends State {
 
         displayX = decreaseX + increaseDecreaseWidth + gapBetweenButton;
         displayY = decreaseY;
-        displayWidth = startWidth - increaseDecreaseWidth*2 - gapBetweenButton*2; // 100 is since 50 gap between each
+        displayWidth = startWidth - increaseDecreaseWidth * 2 - gapBetweenButton * 2; // 100 is since 50 gap between
+                                                                                      // each
         displayHeight = increaseDecreaseHeight;
 
         increaseX = (startX + startWidth) - increaseDecreaseWidth;
@@ -84,26 +83,28 @@ public class MenuState extends State {
         cloudLoop.tick();
         trafficLight.tick();
 
-        if(game.getMouseManager().isLeftPressed()){
-            if(startDetection()){
+        if (game.getMouseManager().isLeftPressed()) {
+            if (startDetection()) {
                 game.initGameState(iterationsChosen, freeplay, lock);
                 State.setState(game.gameState);
             }
 
-            if(increaseDetection() && iterationsChosen<9995) iterationsChosen += iterationsChooseJump;
-            if(decreaseDetection() && iterationsChosen>= iterationsChooseJump) iterationsChosen -= iterationsChooseJump;
-            if(freeplayDetection()){
+            if (increaseDetection() && iterationsChosen < 9995)
+                iterationsChosen += iterationsChooseJump;
+            if (decreaseDetection() && iterationsChosen >= iterationsChooseJump)
+                iterationsChosen -= iterationsChooseJump;
+            if (freeplayDetection()) {
                 freeplay = true;
                 game.initGameState(iterationsChosen, freeplay, lock);
                 State.setState(game.gameState);
             }
-            
-            if(lockDetection()){
-                if(lock) lock = false;
-                else if(!lock) lock = true;
+
+            if (lockDetection()) {
+                if (lock)
+                    lock = false;
+                else if (!lock)
+                    lock = true;
             }
-
-
 
         }
     }
@@ -119,12 +120,14 @@ public class MenuState extends State {
         g.drawImage(Assets.display, displayX, displayY, null); // display button
         g.drawImage(Assets.increment, increaseX, increaseY, null); // increase button
         g.drawImage(Assets.freePlay, freeX, freeY, null);
-        if(lock) g.drawImage(Assets.checked, lockX, lockY, null);
-        else if(!lock) g.drawImage(Assets.unchecked, lockX, lockY, null);
+        if (lock)
+            g.drawImage(Assets.checked, lockX, lockY, null);
+        else if (!lock)
+            g.drawImage(Assets.unchecked, lockX, lockY, null);
         displayIteration(g); // rendering points
     }
 
-    public void displayIteration(Graphics g){
+    public void displayIteration(Graphics g) {
         int digitSpacing = 30;
         int digit = 0;
         int temp = iterationsChosen;
@@ -137,73 +140,77 @@ public class MenuState extends State {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(ac);
 
-        while(temp > 0){
-            digit = temp%10;
-            if(digit==1) x+=8;
-            temp = temp/10;
+        while (temp > 0) {
+            digit = temp % 10;
+            if (digit == 1)
+                x += 8;
+            temp = temp / 10;
             g.drawImage(Assets.numbersArray[digit], x, y, null);
             x -= digitSpacing;
         }
-        if(iterationsChosen <= 0 ){
+        if (iterationsChosen <= 0) {
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
         }
 
     }
 
-
-    public boolean startDetection(){
+    public boolean startDetection() {
         game.getMouseManager().leftPressedSetFalse();
-        // System.out.println(game.getMouseManager().getMouseX() + " : " + game.getMouseManager().getMouseY());
-        if(game.getMouseManager().getMouseX() >= startX && 
-        game.getMouseManager().getMouseX() <= startX + startWidth && 
-        game.getMouseManager().getMouseY() >= startY &&
-        game.getMouseManager().getMouseY() <= startY + startHeight) return true;
+        // System.out.println(game.getMouseManager().getMouseX() + " : " +
+        // game.getMouseManager().getMouseY());
+        if (game.getMouseManager().getMouseX() >= startX && game.getMouseManager().getMouseX() <= startX + startWidth
+                && game.getMouseManager().getMouseY() >= startY
+                && game.getMouseManager().getMouseY() <= startY + startHeight)
+            return true;
         return false;
     }
 
-    public boolean increaseDetection(){
+    public boolean increaseDetection() {
         game.getMouseManager().leftPressedSetFalse();
-        if(game.getMouseManager().getMouseX() >= increaseX && 
-        game.getMouseManager().getMouseX() <= increaseX + increaseDecreaseWidth && 
-        game.getMouseManager().getMouseY() >= increaseY &&
-        game.getMouseManager().getMouseY() <= increaseY + increaseDecreaseHeight) return true;
+        if (game.getMouseManager().getMouseX() >= increaseX
+                && game.getMouseManager().getMouseX() <= increaseX + increaseDecreaseWidth
+                && game.getMouseManager().getMouseY() >= increaseY
+                && game.getMouseManager().getMouseY() <= increaseY + increaseDecreaseHeight)
+            return true;
         return false;
     }
 
-    public boolean decreaseDetection(){
+    public boolean decreaseDetection() {
         game.getMouseManager().leftPressedSetFalse();
-        if(game.getMouseManager().getMouseX() >= decreaseX && 
-        game.getMouseManager().getMouseX() <= decreaseX + increaseDecreaseWidth && 
-        game.getMouseManager().getMouseY() >= decreaseY &&
-        game.getMouseManager().getMouseY() <= decreaseY + increaseDecreaseHeight) return true;
+        if (game.getMouseManager().getMouseX() >= decreaseX
+                && game.getMouseManager().getMouseX() <= decreaseX + increaseDecreaseWidth
+                && game.getMouseManager().getMouseY() >= decreaseY
+                && game.getMouseManager().getMouseY() <= decreaseY + increaseDecreaseHeight)
+            return true;
         return false;
     }
 
-    public boolean freeplayDetection(){
+    public boolean freeplayDetection() {
         game.getMouseManager().leftPressedSetFalse();
-        if(game.getMouseManager().getMouseX() >= freeX && 
-        game.getMouseManager().getMouseX() <= freeX + freeWidth && 
-        game.getMouseManager().getMouseY() >= freeY &&
-        game.getMouseManager().getMouseY() <= freeY + freeHeight) return true;
+        if (game.getMouseManager().getMouseX() >= freeX && game.getMouseManager().getMouseX() <= freeX + freeWidth
+                && game.getMouseManager().getMouseY() >= freeY
+                && game.getMouseManager().getMouseY() <= freeY + freeHeight)
+            return true;
         return false;
     }
 
-    public boolean lockDetection(){
+    public boolean lockDetection() {
         game.getMouseManager().leftPressedSetFalse();
-        if(game.getMouseManager().getMouseX() >= lockX && 
-        game.getMouseManager().getMouseX() <= lockX + lockWidth && 
-        game.getMouseManager().getMouseY() >= lockY &&
-        game.getMouseManager().getMouseY() <= lockY + lockHeight) return true;
+        if (game.getMouseManager().getMouseX() >= lockX && game.getMouseManager().getMouseX() <= lockX + lockWidth
+                && game.getMouseManager().getMouseY() >= lockY
+                && game.getMouseManager().getMouseY() <= lockY + lockHeight)
+            return true;
         return false;
     }
 
-    public boolean lockGetter(){
+    public boolean lockGetter() {
         return lock;
     }
 
-    public void renderMenuLights(Graphics g){
+    public void renderMenuLights(Graphics g) {
         // float alpha = (float) 0.5;
-        // AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+        // AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+        // alpha);
         // Graphics2D g2d = (Graphics2D) g;
         // g2d.setComposite(ac);
         int alpha = 127; // out of 256
