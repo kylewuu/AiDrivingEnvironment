@@ -4,7 +4,8 @@ Using neural networks, the user can choose the amount of iterations to train the
 The user can also choose Free Play mode, which will give the controls over from the AI to the user, and using WASD they can try out the environment themselves.
 
 Getting Started:
-Run the "driver.jar" file at the root of the directory (the same one as this README).
+Make sure you unzip the file before trying to run the program, otherwise you will just see a gray screen.
+After you have unzipped "driver.zip", run the "driver.jar" from the unzipped folder.
 It's important to run the "driver.jar" file in the same directory as the "res" folder.
 
 Built With:
@@ -22,5 +23,6 @@ Main menu:
 	Right arrow: Increase the training iteration count
 	Check mark beside start button: Disable automatically increase the iteration by 5 after every attempt
 	Freeplay: User takes control. 
-Use WASD to drive around.
+
+Use WASD to drive around for Freeplay mode.
 
