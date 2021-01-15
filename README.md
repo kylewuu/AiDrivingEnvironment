@@ -27,3 +27,5 @@ Main menu:
 
 Use WASD to drive around for Freeplay mode.
 
+## Demo:
+A demo can be found at this [demonstration created using React](https://kylewuu.github.io/driverAiDemo/)
