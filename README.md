@@ -13,7 +13,7 @@ Java and supporting Java libraries.
 Photoshop to create the assets
 
 ## Authors
-Me (Kyle Wu)
+Me (Kyle Wu) 
 
 ## Controls:
 Main menu:
