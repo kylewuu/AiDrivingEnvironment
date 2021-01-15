@@ -17,13 +17,12 @@ Me (Kyle Wu)
 
 ## Controls:
 Main menu:
->>
-> * Start button: Start the AI training and demo
-> * Left arrow: Decrease the training iteration count
-> * Box with numbers: Iterations
-> * Right arrow: Increase the training iteration count
-> * Check mark beside start button: Disable automatically increase the iteration by 5 after every attempt
-> * Freeplay: User takes control. 
+* Start button: Start the AI training and demo
+* Left arrow: Decrease the training iteration count
+* Box with numbers: Iterations
+* Right arrow: Increase the training iteration count
+* Check mark beside start button: Disable automatically increase the iteration by 5 after every attempt
+* Freeplay: User takes control. 
 
 Use WASD to drive around for Freeplay mode. In Freeplay mode, when users successfully make it through the left turn and drive off the top of the screen, it will restart automatically after a few seconds.
 
