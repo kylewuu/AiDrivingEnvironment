@@ -4,7 +4,7 @@ Using neural networks, the user can choose the amount of iterations to train the
 The user can also choose Free Play mode, which will give the controls over from the AI to the user, and using WASD they can try out the environment themselves.
 
 ## Demo:
-A demo can be found at this [webpage created using React](https://kylewuu.github.io/driverAiDemo/)
+A demo and further explanations can be found [here](https://kylewuu.github.io/driverAiDemo/)
 
 ## Getting Started:
 Make sure you unzip the file before trying to run the program, otherwise you will just see a gray screen.
