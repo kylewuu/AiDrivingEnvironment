@@ -25,7 +25,7 @@ Main menu:
 > * Check mark beside start button: Disable automatically increase the iteration by 5 after every attempt
 > * Freeplay: User takes control. 
 
-Use WASD to drive around for Freeplay mode.
+Use WASD to drive around for Freeplay mode. In Freeplay mode, when users successfully make it through the left turn and drive off the top of the screen, it will restart automatically after a few seconds.
 
 ## Demo:
 A demo can be found at this [demonstration created using React](https://kylewuu.github.io/driverAiDemo/)
