@@ -1,6 +1,6 @@
 package driver.game.calculations;
 
-public class Movement{
+public class Movement {
     public double velocity;
     public double acceleration;
     public double deceleration;
@@ -17,7 +17,7 @@ public class Movement{
     public double velocityLimit;
     public int base;
 
-    public Movement(double velocity,double acceleration,double deceleration, double velocityLimit){
+    public Movement(double velocity, double acceleration, double deceleration, double velocityLimit) {
         this.velocity = velocity;
         this.acceleration = acceleration;
         this.deceleration = deceleration;
@@ -33,57 +33,57 @@ public class Movement{
         base = 12;
     }
 
-    public void accelerate(){
-        // System.out.println("asc");
-        if(velocity <= velocityLimit){
+    public void accelerate() {
+        if (velocity <= velocityLimit) {
             velocity += acceleration;
         }
     }
 
-    public void decelerate(){
-        // System.out.println("dec");
-        if(velocity > deceleration){
+    public void decelerate() {
+        if (velocity > deceleration) {
             velocity -= deceleration;
-        }
-        else velocity = 0.000000000;
+        } else
+            velocity = 0.000000000;
     }
 
-    public void turnAccelerate(){
-        velocity += (acceleration-(velocity/600))/2.6;
+    public void turnAccelerate() {
+        velocity += (acceleration - (velocity / 600)) / 2.6;
     }
 
-    public void turnDecelerate(){
-        velocity -= deceleration/2;
-            if(velocity < deceleration/2){
-                velocity = 0;
-            }
-    }
-
-    public void slowDown(){
-        velocity -= deceleration/3;
-        if(velocity < deceleration/3){
-            velocity = 0;
-        }
-    }
-    public void turnSlowDown(){
-        velocity -= deceleration/1.5;
-        if(velocity < deceleration/1.5){
+    public void turnDecelerate() {
+        velocity -= deceleration / 2;
+        if (velocity < deceleration / 2) {
             velocity = 0;
         }
     }
 
-    public double tick(int base){
+    public void slowDown() {
+        velocity -= deceleration / 3;
+        if (velocity < deceleration / 3) {
+            velocity = 0;
+        }
+    }
+
+    public void turnSlowDown() {
+        velocity -= deceleration / 1.5;
+        if (velocity < deceleration / 1.5) {
+            velocity = 0;
+        }
+    }
+
+    public double tick(int base) {
         return velocity / base;
     }
 
-    public void calcTurnLeft(){
-        r = (int) (velocity*3 + 50);
-        if(velocity == 0){
+    public void calcTurnLeft() {
+        r = (int) (velocity * 3 + 50);
+        if (velocity == 0) {
             r = rBase;
         }
 
-        angleRate = velocity/22;        
-        if(angleRate > 1.2) angleRate = 1.2;
+        angleRate = velocity / 22;
+        if (angleRate > 1.2)
+            angleRate = 1.2;
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleLeft));
         riseYTemp = r * Math.cos(Math.toRadians(angleLeft));
@@ -96,19 +96,17 @@ public class Movement{
 
         angleLeft += angleRate;
         angleRight = angleLeft - 180;
-
-        // System.out.println("angle: "+angle+" coordinates: "+riseX + " : "+riseY);
-
     }
-    public void calcTurnRight(){
-        r = (int) (velocity*3 + 50);
-        if(velocity == 0){
+
+    public void calcTurnRight() {
+        r = (int) (velocity * 3 + 50);
+        if (velocity == 0) {
             r = rBase;
         }
 
-        angleRate = velocity/22;        
-        if(angleRate > 1.2) angleRate = 1.2;
-
+        angleRate = velocity / 22;
+        if (angleRate > 1.2)
+            angleRate = 1.2;
 
         // the formulas for turning left and right!
         riseXTemp = r * Math.sin(Math.toRadians(angleRight));
@@ -122,15 +120,12 @@ public class Movement{
 
         angleRight -= angleRate;
         angleLeft = angleRight + 180;
-
-        // System.out.println("angle: "+angle+" coordinates: "+riseX + " : "+riseY);
-
     }
 
-    public void calcStraight(){
+    public void calcStraight() {
         linearVelocity = tick(base);
         // can use either left or right angle, they're all the same
         riseXLinear = (linearVelocity * Math.cos(Math.toRadians(angleLeft)));
-        riseYLinear = - (linearVelocity * Math.sin(Math.toRadians(angleLeft)));
+        riseYLinear = -(linearVelocity * Math.sin(Math.toRadians(angleLeft)));
     }
 }

@@ -11,10 +11,9 @@ import driver.game.entities.clouds.CloudsLoop;
 import driver.game.entities.trafficLight.TrafficLights;
 import driver.game.entities.cars.CPULoop;
 
-
 public class GameState extends State {
-    float carStartingX,carStartingY;
-    float trafficLightStartingX, trafficLightStartingY; 
+    float carStartingX, carStartingY;
+    float trafficLightStartingX, trafficLightStartingY;
 
     private Player player;
     private TrafficLights trafficLight;
@@ -22,21 +21,20 @@ public class GameState extends State {
     private PlayerAi playerAi;
     private CloudsLoop cloudLoop;
 
-    public GameState(Game game, PlayerAi trainedPlayerAi, boolean freeplay){
+    public GameState(Game game, PlayerAi trainedPlayerAi, boolean freeplay) {
         super(game);
-        
+
         carStartingX = 15;
-        carStartingY = (Launcher.height/2 + 20) - 9;
+        carStartingY = (Launcher.height / 2 + 20) - 9;
         player = new Player(game, carStartingX, carStartingY, freeplay);
-        
-        trafficLightStartingX = Launcher.width/2;
-        trafficLightStartingY = Launcher.height/2;
-        
+
+        trafficLightStartingX = Launcher.width / 2;
+        trafficLightStartingY = Launcher.height / 2;
+
         trafficLight = new TrafficLights(game, trafficLightStartingX, trafficLightStartingY);
         cpuLoop = new CPULoop();
         cloudLoop = new CloudsLoop();
         playerAi = trainedPlayerAi;
-
     }
 
     @Override
@@ -48,16 +46,7 @@ public class GameState extends State {
         cpuLoop.tick();
         cloudLoop.tick();
         player.collisionCPU(cpuLoop.getter());
-        // playerAi.tick(
-        //     player.xGetter(),
-        //     player.yGetter(),
-        //     trafficLight.stateGetter(),
-        //     player.velocityGetter(),
-        //     player.decelerationGetter(),
-        //     player.baseGetter()
-        //     );
         playerAi.tick(player, trafficLight.stateGetter(), cpuLoop.getter());
-
     }
 
     @Override
@@ -68,8 +57,8 @@ public class GameState extends State {
         trafficLight.render(g);
         cloudLoop.render(g);
         player.pointsRender(g);
-        if(!game.getFreePlay()) player.iterationsRender(g);
-
+        if (!game.getFreePlay())
+            player.iterationsRender(g);
     }
-    
+
 }

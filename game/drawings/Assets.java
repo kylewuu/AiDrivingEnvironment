@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 
-
-public class Assets{
+public class Assets {
     // cars
     public static BufferedImage carStraightNo;
     public static BufferedImage carStraightBrake;
@@ -20,27 +19,19 @@ public class Assets{
     public static BufferedImage trafficLightYellow;
     public static BufferedImage environment;
     public static BufferedImage cloud, cloud1, cloud2, cloud3;
-    public static BufferedImage n0,n1,n2,n3,n4,n5,n6,n7,n8,n9;
-    public static BufferedImage start, freePlay, display, increment, decrement,checked,unchecked, pointsDisplay, iterationDisplay;
-    
-    public static int trafficLightWidth,carLength, carWidth;
+    public static BufferedImage n0, n1, n2, n3, n4, n5, n6, n7, n8, n9;
+    public static BufferedImage start, freePlay, display, increment, decrement, checked, unchecked, pointsDisplay,
+            iterationDisplay;
 
-    public static BufferedImage 
-    carStraightNoWhite,
-    carStraightBrakeWhite,
-    carStraightNoRed,
-    carStraightBrakeRed,
-    carStraightNoPurple,
-    carStraightBrakePurple,
-    carStraightNoGreen,
-    carStraightBrakeGreen,
-    carStraightNoYellow,
-    carStraightBrakeYellow
-    ;
+    public static int trafficLightWidth, carLength, carWidth;
+
+    public static BufferedImage carStraightNoWhite, carStraightBrakeWhite, carStraightNoRed, carStraightBrakeRed,
+            carStraightNoPurple, carStraightBrakePurple, carStraightNoGreen, carStraightBrakeGreen, carStraightNoYellow,
+            carStraightBrakeYellow;
 
     public static BufferedImage[] cpuColorArrayNo, cpuColorArrayBrake, cloudArray, numbersArray;
 
-    public static void init(){
+    public static void init() {
         carStraightNo = ImageLoader.loadImage("/driver/res/textures/carStraightNoBrake.png");
         carStraightBrake = ImageLoader.loadImage("/driver/res/textures/carStraightBrake.png");
         carLeftNo = ImageLoader.loadImage("/driver/res/textures/carLeftNo.png");
@@ -65,44 +56,28 @@ public class Assets{
         carStraightBrakeYellow = ImageLoader.loadImage("/driver/res/textures/cpu/carBrakeYellow.png");
 
         // rotating
-        cpuColorArrayNo = new BufferedImage[]{
-            carStraightNoWhite,
-            carStraightNoRed,
-            carStraightNoPurple,
-            carStraightNoGreen,
-            carStraightNoYellow
-        };
-        cpuColorArrayBrake = new BufferedImage[]{
-            carStraightBrakeWhite,
-            carStraightBrakeRed,
-            carStraightBrakePurple,
-            carStraightBrakeGreen,
-            carStraightBrakeYellow
-        };
+        cpuColorArrayNo = new BufferedImage[] { carStraightNoWhite, carStraightNoRed, carStraightNoPurple,
+                carStraightNoGreen, carStraightNoYellow };
+        cpuColorArrayBrake = new BufferedImage[] { carStraightBrakeWhite, carStraightBrakeRed, carStraightBrakePurple,
+                carStraightBrakeGreen, carStraightBrakeYellow };
 
-        // trafficLight = ImageLoader.loadImage("/driver/res/textures/trafficLightAll.png");
         trafficLightRed = ImageLoader.loadImage("/driver/res/textures/trafficLightRed.png");
         trafficLightGreen = ImageLoader.loadImage("/driver/res/textures/trafficLightGreen.png");
         trafficLightYellow = ImageLoader.loadImage("/driver/res/textures/trafficLightYellow.png");
 
         carLength = carStraightNo.getWidth();
         carWidth = carStraightNo.getHeight();
-        trafficLightWidth = trafficLightRed.getWidth(); // uselss??
+        trafficLightWidth = trafficLightRed.getWidth();
 
         // clouds
         cloud = ImageLoader.loadImage("/driver/res/textures/cloud.png");
         cloud1 = ImageLoader.loadImage("/driver/res/textures/cloud1.png");
         cloud2 = ImageLoader.loadImage("/driver/res/textures/cloud2.png");
         cloud3 = ImageLoader.loadImage("/driver/res/textures/cloud3.png");
-        cloudArray = new BufferedImage[]{
-            cloud,
-            cloud1,
-            cloud2,
-            cloud3
-        };
+        cloudArray = new BufferedImage[] { cloud, cloud1, cloud2, cloud3 };
 
         environment = ImageLoader.loadImage("/driver/res/textures/environment.png");
-    
+
         // number/points
         n0 = ImageLoader.loadImage("/driver/res/textures/numbers/0.png");
         n1 = ImageLoader.loadImage("/driver/res/textures/numbers/1.png");
@@ -115,18 +90,7 @@ public class Assets{
         n8 = ImageLoader.loadImage("/driver/res/textures/numbers/8.png");
         n9 = ImageLoader.loadImage("/driver/res/textures/numbers/9.png");
 
-        numbersArray = new BufferedImage[]{
-            n0,
-            n1,
-            n2,
-            n3,
-            n4,
-            n5,
-            n6,
-            n7,
-            n8,
-            n9
-        };
+        numbersArray = new BufferedImage[] { n0, n1, n2, n3, n4, n5, n6, n7, n8, n9 };
 
         start = ImageLoader.loadImage("/driver/res/textures/start.png");
         freePlay = ImageLoader.loadImage("/driver/res/textures/freePlay.png");
@@ -138,8 +102,6 @@ public class Assets{
 
         pointsDisplay = ImageLoader.loadImage("/driver/res/textures/pointsDisplay.png");
         iterationDisplay = ImageLoader.loadImage("/driver/res/textures/iterationDisplay.png");
-
-        
     }
 
     public static BufferedImage rotate(BufferedImage image, double degrees) {
@@ -151,11 +113,10 @@ public class Assets{
         final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
         final AffineTransform at = new AffineTransform();
         at.translate(w / 2, h / 2);
-        at.rotate(rads,0, 0);
+        at.rotate(rads, 0, 0);
         at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
         final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-        rotateOp.filter(image,rotatedImage);
+        rotateOp.filter(image, rotatedImage);
         return rotatedImage;
     }
-
 }

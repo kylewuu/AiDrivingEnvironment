@@ -75,7 +75,6 @@ public class MenuState extends State {
 
         increaseX = (startX + startWidth) - increaseDecreaseWidth;
         increaseY = decreaseY;
-
     }
 
     @Override
@@ -105,7 +104,6 @@ public class MenuState extends State {
                 else if (!lock)
                     lock = true;
             }
-
         }
     }
 
@@ -131,7 +129,6 @@ public class MenuState extends State {
         int digitSpacing = 30;
         int digit = 0;
         int temp = iterationsChosen;
-        // System.out.println("Starting points -------- "+points);
         int y = displayY + 5;
         int xStarting = displayX + displayWidth - digitSpacing - 10;
         int x = xStarting;
@@ -151,13 +148,10 @@ public class MenuState extends State {
         if (iterationsChosen <= 0) {
             g.drawImage(Assets.numbersArray[0], xStarting, y, null);
         }
-
     }
 
     public boolean startDetection() {
         game.getMouseManager().leftPressedSetFalse();
-        // System.out.println(game.getMouseManager().getMouseX() + " : " +
-        // game.getMouseManager().getMouseY());
         if (game.getMouseManager().getMouseX() >= startX && game.getMouseManager().getMouseX() <= startX + startWidth
                 && game.getMouseManager().getMouseY() >= startY
                 && game.getMouseManager().getMouseY() <= startY + startHeight)
@@ -208,19 +202,9 @@ public class MenuState extends State {
     }
 
     public void renderMenuLights(Graphics g) {
-        // float alpha = (float) 0.5;
-        // AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-        // alpha);
-        // Graphics2D g2d = (Graphics2D) g;
-        // g2d.setComposite(ac);
         int alpha = 127; // out of 256
         Color menuBackground = new Color(0, 0, 0, alpha);
         g.setColor(menuBackground);
         g.fillRect(0, 0, Launcher.width, Launcher.height);
-
-        // alpha = (float) 1.0;
-        // ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-        // g2d = (Graphics2D) g;
-        // g2d.setComposite(ac);
     }
 }
