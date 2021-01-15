@@ -27,4 +27,4 @@ Main menu:
 Use WASD to drive around for Freeplay mode. In Freeplay mode, when users successfully make it through the left turn and drive off the top of the screen, it will restart automatically after a few seconds.
 
 ## Demo:
-A demo can be found at this [demonstration created using React](https://kylewuu.github.io/driverAiDemo/)
+A demo can be found at this [webpage created using React](https://kylewuu.github.io/driverAiDemo/)
