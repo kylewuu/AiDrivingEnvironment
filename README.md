@@ -3,6 +3,9 @@ This project is a demonstration of artificial intelligence and my personal take 
 Using neural networks, the user can choose the amount of iterations to train the AI before it goes through the intersection, and based on that the performance of it will vary.
 The user can also choose Free Play mode, which will give the controls over from the AI to the user, and using WASD they can try out the environment themselves.
 
+## Demo:
+A demo can be found at this [webpage created using React](https://kylewuu.github.io/driverAiDemo/)
+
 ## Getting Started:
 Make sure you unzip the file before trying to run the program, otherwise you will just see a gray screen.
 After you have unzipped "driver.zip", run the "driver.jar" from the unzipped folder.
@@ -25,6 +28,3 @@ Main menu:
 * Freeplay: User takes control. 
 
 Use WASD to drive around for Freeplay mode. In Freeplay mode, when users successfully make it through the left turn and drive off the top of the screen, it will restart automatically after a few seconds.
-
-## Demo:
-A demo can be found at this [webpage created using React](https://kylewuu.github.io/driverAiDemo/)
