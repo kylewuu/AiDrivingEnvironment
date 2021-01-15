@@ -15,7 +15,7 @@ It's important to run the "driver.jar" file in the same directory as the "res" f
 Java and supporting Java libraries.
 Photoshop to create the assets
 
-## Authors
+## Authors:
 Me (Kyle Wu) 
 
 ## Controls:
